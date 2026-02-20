@@ -56,8 +56,21 @@
 </div>
 
 <script>
-  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
-    document.getElementById('sidebar').classList.toggle('collapsed');
-    document.getElementById('main-content').classList.toggle('collapsed');
-  });
+  (function () {
+    const toggleSidebar = function () {
+      const sidebar = document.getElementById('sidebar');
+      const mainContent = document.getElementById('main-content');
+      if (!sidebar || !mainContent) return;
+      
+      if (window.innerWidth <= 768) {
+        sidebar.classList.toggle('show');
+      } else {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('collapsed');
+      }
+    };
+    
+    document.getElementById('sidebarToggle')?.addEventListener('click', toggleSidebar);
+    document.getElementById('sidebarClose')?.addEventListener('click', toggleSidebar);
+  })();
 </script>

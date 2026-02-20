@@ -63,6 +63,10 @@
     /* ── Main wrapper ── */
     #main-content { margin-left: var(--sidebar-width); min-height: 100vh; transition: margin-left 0.3s; }
 
+    /* ── Collapsed States ── */
+    #sidebar.collapsed { width: 0; overflow: hidden; }
+    #main-content.collapsed { margin-left: 0; }
+
     /* ── Top Navbar ── */
     .top-navbar {
       height: var(--navbar-height); background: #fff; border-bottom: 1px solid #e8ecf0;
@@ -153,7 +157,8 @@
     @media (max-width: 768px) {
       #sidebar { width: 0; }
       #sidebar.show { width: var(--sidebar-width); }
-      #main-content { margin-left: 0; }
+      #main-content { margin-left: 0 !important; }
+      .top-navbar { padding: 0 16px; }
     }
   </style>
 </head>
