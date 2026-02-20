@@ -6,36 +6,110 @@
   <div id="main-content">
     <%- include('../partials/navbar', { pageTitle: 'My Profile', userName, csrfToken, profileUrl: '/admin/view-profile', userRole: 'Administrator' }) %>
     <div class="page-inner">
-      <h5 style="font-weight:700;color:#1a202c;margin-bottom:1.5rem;">My Profile</h5>
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="section-card text-center">
-            <div class="section-card-body">
-              <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#2490EF,#1976D2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.8rem;font-weight:700;margin:0 auto 1rem;"><%= employee.name ? employee.name[0].toUpperCase() : 'A' %></div>
-              <h6 style="font-weight:700;margin:0;"><%= employee.name %></h6>
-              <p style="color:#6b7280;font-size:0.85rem;margin:4px 0;">Administrator</p>
-              <span class="badge" style="background:#EFF6FF;color:#2490EF;border-radius:20px;font-size:0.75rem;"><%= employee.email %></span>
+      <div class="mb-4">
+        <h5 style="font-weight:700;color:#1a202c;margin:0;">My Profile Information</h5>
+      </div>
+      
+      <!-- Profile Hero Section -->
+      <div class="section-card mb-4" style="background: linear-gradient(to right, #ffffff, #f8fafc); border: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+        <div class="section-card-body p-4">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <div style="width:100px;height:100px;border-radius:24px;background:linear-gradient(135deg,#2490EF,#1976D2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:2.5rem;font-weight:700;box-shadow: 0 10px 15px -3px rgba(36, 144, 239, 0.3);">
+                <%= employee.name ? employee.name[0].toUpperCase() : 'A' %>
+              </div>
+            </div>
+            <div class="col mt-3 mt-md-0">
+              <div class="d-flex flex-wrap align-items-center gap-3">
+                <h3 class="mb-0" style="font-weight:800; color:#1e293b;"><%= employee.name %></h3>
+                <span class="badge" style="background:rgba(36, 144, 239, 0.1); color:#1976D2; border-radius:8px; font-weight:600; padding:6px 12px; font-size: 0.85rem;">
+                  Admin Account
+                </span>
+              </div>
+              <p class="mb-2 mt-1" style="color:#64748b; font-size:1.1rem; font-weight: 500;">
+                <i class="fa-solid fa-user-gear me-2 text-primary opacity-75"></i>System Administrator
+              </p>
+              <div class="d-flex flex-wrap gap-4 mt-2">
+                <div class="d-flex align-items-center" style="color:#475569; font-size:0.9rem;">
+                  <i class="fa-solid fa-envelope me-2 text-primary opacity-50"></i>
+                  <%= employee.email %>
+                </div>
+                <div class="d-flex align-items-center" style="color:#475569; font-size:0.9rem;">
+                  <i class="fa-solid fa-building me-2 text-primary opacity-50"></i>
+                  <%= employee.department || 'Management' %>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-8">
-          <div class="section-card">
-            <div class="section-card-body">
-              <h6 style="font-weight:700;margin-bottom:1rem;color:#374151;">Personal Information</h6>
-              <div class="row g-3">
-                <div class="col-sm-6"><div style="font-size:0.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;">Full Name</div><div style="font-weight:600;"><%= employee.name %></div></div>
-                <div class="col-sm-6"><div style="font-size:0.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;">Email</div><div style="font-weight:600;"><%= employee.email %></div></div>
-                <div class="col-sm-6"><div style="font-size:0.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;">Date of Birth</div><div style="font-weight:600;"><%= moment(employee.dateOfBirth).format('DD MMM YYYY') %></div></div>
-                <div class="col-sm-6"><div style="font-size:0.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;">Contact</div><div style="font-weight:600;"><%= employee.contactNumber || 'N/A' %></div></div>
-                <div class="col-sm-6"><div style="font-size:0.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;">Department</div><div style="font-weight:600;"><%= employee.department || 'N/A' %></div></div>
-                <div class="col-sm-6"><div style="font-size:0.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;">Designation</div><div style="font-weight:600;"><%= employee.designation || 'N/A' %></div></div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Sidebar Info -->
+        <div class="col-lg-4">
+          <div class="section-card mb-4 shadow-sm border-0">
+            <div class="section-card-header bg-transparent border-0 pt-4 px-4 pb-0">
+              <h6 style="color: #64748b; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; font-weight: 700;">Account Details</h6>
+            </div>
+            <div class="section-card-body p-4">
+              <div class="mb-4">
+                <div class="d-flex align-items-center mb-1">
+                  <div style="width:32px; height:32px; background: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                    <i class="fa-solid fa-address-card text-primary opacity-75" style="font-size: 0.85rem;"></i>
+                  </div>
+                  <span style="font-size: 0.8rem; color:#94a3b8; font-weight: 600; text-transform: uppercase;">Contact info</span>
+                </div>
+                <div style="margin-left: 44px; font-weight: 600; color: #1e293b;"><%= employee.contactNumber || 'N/A' %></div>
               </div>
+
+              <div class="mb-0">
+                <div class="d-flex align-items-center mb-1">
+                  <div style="width:32px; height:32px; background: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                    <i class="fa-solid fa-calendar text-primary opacity-75" style="font-size: 0.85rem;"></i>
+                  </div>
+                  <span style="font-size: 0.8rem; color:#94a3b8; font-weight: 600; text-transform: uppercase;">Date of Birth</span>
+                </div>
+                <div style="margin-left: 44px; font-weight: 600; color: #1e293b;"><%= moment(employee.dateOfBirth).format('DD MMM YYYY') %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Info -->
+        <div class="col-lg-8">
+          <div class="section-card mb-4 shadow-sm border-0">
+            <div class="section-card-header p-4 bg-white">
+              <h5 class="mb-0" style="font-weight: 700; color: #1e293b;">Professional Information</h5>
+            </div>
+            <div class="section-card-body p-4">
+              <div class="row g-4">
+                <div class="col-sm-6">
+                  <div class="p-3 bg-light rounded-3 h-100">
+                    <p style="font-size:0.75rem; color:#64748b; font-weight:700; text-transform:uppercase; margin-bottom:8px; letter-spacing: 0.03em;">Role Type</p>
+                    <div style="font-weight:700; color: #1e293b;"><%= employee.type || 'Administrator' %></div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="p-3 bg-light rounded-3 h-100">
+                    <p style="font-size:0.75rem; color:#64748b; font-weight:700; text-transform:uppercase; margin-bottom:8px; letter-spacing: 0.03em;">Current Designation</p>
+                    <div style="font-weight:700; color: #1e293b;"><%= employee.designation || 'System Admin' %></div>
+                  </div>
+                </div>
+              </div>
+              
+              <hr class="my-4 opacity-50" />
+              
+              <h6 style="font-weight:700; margin-bottom:1.25rem; color:#1e293b;">My Primary Areas</h6>
               <% if(employee.Skills && employee.Skills.length > 0) { %>
-              <hr style="margin:1.5rem 0;" />
-              <h6 style="font-weight:700;margin-bottom:0.75rem;color:#374151;">Skills</h6>
               <div class="d-flex flex-wrap gap-2">
-                <% employee.Skills.forEach(function(s){ if(s){ %><span class="badge" style="background:#EFF6FF;color:#2490EF;border-radius:20px;font-size:0.8rem;padding:5px 12px;"><%= s %></span><% } }); %>
+                <% employee.Skills.forEach(function(s){ if(s){ %>
+                  <div class="badge-skill d-inline-flex align-items-center px-3 py-2" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; color: #475569; font-weight: 600; font-size: 0.85rem;">
+                    <i class="fa-solid fa-star text-warning me-2" style="font-size: 0.75rem;"></i><%= s %>
+                  </div>
+                <% } }); %>
               </div>
+              <% } else { %>
+                <p class="text-muted" style="font-size:0.9rem; font-style: italic;">No specific highlights listed.</p>
               <% } %>
             </div>
           </div>

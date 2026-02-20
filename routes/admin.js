@@ -10,6 +10,8 @@ const Attendance = require("../models/attendance");
 const Holiday = require("../models/holiday");
 const ExpenseClaim = require("../models/expense_claim");
 const Recruitment = require("../models/recruitment");
+const UserSalary = require("../models/user_salary");
+const PaySlip = require("../models/payslip");
 const { isLoggedIn } = require("./middleware");
 
 router.use("/", isLoggedIn, function isAuthenticated(req, res, next) {
@@ -81,9 +83,20 @@ router.get("/employee-profile/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
     const user = await User.findById(id);
+    const [salaryInfo, employeeProjects, latestPaySlip, totalAttendance] = await Promise.all([
+      UserSalary.findOne({ employeeID: id }),
+      Project.find({ $or: [{ employeeID: id }] }),
+      PaySlip.findOne({ employeeID: id }).sort({ _id: -1 }),
+      Attendance.countDocuments({ employeeID: id, present: true }),
+    ]);
+
     res.render("Admin/employeeProfile", {
       title: "Employee Profile",
       employee: user,
+      salaryInfo: salaryInfo || { salary: 0, bonus: 0 },
+      projects: employeeProjects || [],
+      latestPaySlip: latestPaySlip || { bankName: 'N/A', branchAddress: 'N/A' },
+      attendanceCount: totalAttendance,
       csrfToken: req.csrfToken(),
       moment: moment,
       userName: req.user.name,

@@ -10,43 +10,249 @@
         <a href="/admin/view-all-employees" class="btn btn-outline-secondary btn-sm me-2"><i class="fa-solid fa-arrow-left me-1"></i>Back</a>
         <h5 class="d-inline-block ms-1" style="font-weight:700;color:#1a202c;">Employee Profile</h5>
       </div>
+      
+      <!-- Profile Hero Section -->
+      <div class="section-card mb-4" style="background: linear-gradient(to right, #ffffff, #f8fafc); border: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+        <div class="section-card-body p-4">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <div style="width:100px;height:100px;border-radius:24px;background:linear-gradient(135deg,#2490EF,#1976D2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:2.5rem;font-weight:700;box-shadow: 0 10px 15px -3px rgba(36, 144, 239, 0.3);">
+                <%= employee.name ? employee.name[0].toUpperCase() : 'E' %>
+              </div>
+            </div>
+            <div class="col mt-3 mt-md-0">
+              <div class="d-flex flex-wrap align-items-center gap-3">
+                <h3 class="mb-0" style="font-weight:800; color:#1e293b;"><%= employee.name %></h3>
+                <span class="badge" style="background:rgba(36, 144, 239, 0.1); color:#1976D2; border-radius:8px; font-weight:600; padding:6px 12px; font-size: 0.85rem;">
+                  ID: <%= employee._id.toString().slice(-6).toUpperCase() %>
+                </span>
+              </div>
+              <p class="mb-2 mt-1" style="color:#64748b; font-size:1.1rem; font-weight: 500;">
+                <i class="fa-solid fa-briefcase me-2 text-primary opacity-75"></i><%= employee.designation || 'Specialist' %>
+              </p>
+              <div class="d-flex flex-wrap gap-4 mt-2">
+                <div class="d-flex align-items-center" style="color:#475569; font-size:0.9rem;">
+                  <i class="fa-solid fa-building me-2 text-primary opacity-50"></i>
+                  <%= employee.department || 'General' %>
+                </div>
+                <div class="d-flex align-items-center" style="color:#475569; font-size:0.9rem;">
+                  <i class="fa-solid fa-location-dot me-2 text-primary opacity-50"></i>
+                  Remote / On-site
+                </div>
+                <div class="d-flex align-items-center" style="color:#475569; font-size:0.9rem;">
+                  <i class="fa-solid fa-calendar-day me-2 text-primary opacity-50"></i>
+                  Joined <%= moment(employee.dateAdded).format('MMM YYYY') %>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-auto mt-4 mt-md-0 d-flex gap-2">
+              <a href="/admin/edit-employee/<%= employee._id %>" class="btn btn-primary px-4 shadow-sm" style="border-radius:10px; font-weight: 600;">
+                <i class="fa-solid fa-pen-to-square me-2"></i>Edit Profile
+              </a>
+              <a href="/admin/view-employee-attendance/<%= employee._id %>" class="btn btn-outline-primary px-4 bg-white shadow-sm" style="border-radius:10px; font-weight: 600;">
+                <i class="fa-solid fa-calendar-check me-2"></i>Attendance
+              </a>
+              <button class="btn btn-outline-danger px-3 delete-button" data-id="<%= employee._id %>" style="border-radius:10px; font-weight: 600;" title="Delete Profile">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row g-4">
-        <div class="col-md-4">
-          <div class="section-card text-center">
-            <div class="section-card-body">
-              <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#2490EF,#1976D2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.8rem;font-weight:700;margin:0 auto 1rem;"><%= employee.name ? employee.name[0].toUpperCase() : 'E' %></div>
-              <h6 style="font-weight:700;margin:0;"><%= employee.name %></h6>
-              <p style="color:#6b7280;font-size:0.85rem;margin:4px 0 8px;"><%= employee.designation || 'N/A' %></p>
-              <span class="badge" style="background:#EFF6FF;color:#2490EF;border-radius:20px;font-size:0.75rem;padding:5px 12px;"><%= employee.department || 'N/A' %></span>
-              <div class="d-flex gap-2 justify-content-center mt-3">
-                <a href="/admin/edit-employee/<%= employee._id %>" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-pen-to-square me-1"></i>Edit</a>
-                <a href="/admin/view-employee-attendance/<%= employee._id %>" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-calendar-check me-1"></i>Attendance</a>
+        <!-- Sidebar Info -->
+        <div class="col-lg-4">
+          <div class="section-card mb-4">
+            <div class="section-card-header bg-transparent border-0 pt-4 px-4 pb-0">
+              <h6 style="color: #64748b; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; font-weight: 700;">Quick Actions & Links</h6>
+            </div>
+            <div class="section-card-body p-4 pt-1">
+              <div class="d-grid gap-2 mb-4 mt-3">
+                <a href="/admin/add-employee-project/<%= employee._id %>" class="btn btn-sm btn-outline-success text-start px-3 py-2" style="border-radius:8px; border-style: dashed;">
+                   <i class="fa-solid fa-plus me-2"></i>Assign New Project
+                </a>
+                <a href="/admin/all-employee-projects/<%= employee._id %>" class="btn btn-sm btn-outline-info text-start px-3 py-2" style="border-radius:8px;">
+                   <i class="fa-solid fa-diagram-project me-2"></i>View All My Projects (<%= (typeof projects !== 'undefined' && projects) ? projects.length : 0 %>)
+                </a>
+              </div>
+              <div class="mb-4">
+                <div class="d-flex align-items-center mb-1">
+                  <div style="width:32px; height:32px; background: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                    <i class="fa-solid fa-envelope text-primary opacity-75" style="font-size: 0.85rem;"></i>
+                  </div>
+                  <span style="font-size: 0.8rem; color:#94a3b8; font-weight: 600; text-transform: uppercase;">Email Address</span>
+                </div>
+                <div style="margin-left: 44px; font-weight: 600; color: #1e293b; overflow-wrap: break-word;"><%= employee.email %></div>
+              </div>
+
+              <div class="mb-4">
+                <div class="d-flex align-items-center mb-1">
+                  <div style="width:32px; height:32px; background: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                    <i class="fa-solid fa-phone text-primary opacity-75" style="font-size: 0.85rem;"></i>
+                  </div>
+                  <span style="font-size: 0.8rem; color:#94a3b8; font-weight: 600; text-transform: uppercase;">Phone Number</span>
+                </div>
+                <div style="margin-left: 44px; font-weight: 600; color: #1e293b;"><%= employee.contactNumber || 'N/A' %></div>
+              </div>
+
+              <div class="mb-0">
+                <div class="d-flex align-items-center mb-1">
+                  <div style="width:32px; height:32px; background: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                    <i class="fa-solid fa-user-shield text-primary opacity-75" style="font-size: 0.85rem;"></i>
+                  </div>
+                  <span style="font-size: 0.8rem; color:#94a3b8; font-weight: 600; text-transform: uppercase;">Employee Role</span>
+                </div>
+                <div style="margin-left: 44px; font-weight: 600; color: #1e293b;"><%= employee.type %></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-card-header bg-transparent border-0 pt-4 px-4 pb-0">
+              <h6 style="color: #64748b; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; font-weight: 700;">Account statistics</h6>
+            </div>
+            <div class="section-card-body p-4 pt-1">
+              <div class="d-flex align-items-center justify-content-between mb-3 mt-3 p-3" style="background:rgba(34, 197, 94, 0.05); border-radius:12px; border: 1px solid rgba(34, 197, 94, 0.1);">
+                <div class="d-flex align-items-center">
+                  <i class="fa-solid fa-circle-check text-success me-2"></i>
+                  <span style="font-size: 0.85rem; font-weight:600; color: #15803d;">Active Status</span>
+                </div>
+                <span class="badge bg-success py-1 px-2" style="font-weight: 700; border-radius: 6px;">Live</span>
+              </div>
+              <div class="d-flex align-items-center justify-content-between p-3" style="background:rgba(36, 144, 239, 0.05); border-radius:12px; border: 1px solid rgba(36, 144, 239, 0.1);">
+                <div class="d-flex align-items-center">
+                  <i class="fa-solid fa-clock-rotate-left text-primary me-2"></i>
+                  <span style="font-size: 0.85rem; font-weight:600; color: #1d4ed8;">Attendance Count</span>
+                </div>
+                <span style="font-weight: 700; color: #1d4ed8;"><%= typeof attendanceCount !== 'undefined' ? attendanceCount : 0 %> days</span>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-8">
-          <div class="section-card">
-            <div class="section-card-body">
-              <h6 style="font-weight:700;margin-bottom:1rem;color:#374151;">Personal Information</h6>
-              <div class="row g-3">
-                <div class="col-sm-6"><div style="font-size:0.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;">Email</div><div style="font-weight:600;word-break:break-all;"><%= employee.email %></div></div>
-                <div class="col-sm-6"><div style="font-size:0.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;">Contact</div><div style="font-weight:600;"><%= employee.contactNumber || 'N/A' %></div></div>
-                <div class="col-sm-6"><div style="font-size:0.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;">Date of Birth</div><div style="font-weight:600;"><%= moment(employee.dateOfBirth).format('DD MMM YYYY') %></div></div>
-                <div class="col-sm-6"><div style="font-size:0.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;">Role</div><div style="font-weight:600;"><%= employee.type %></div></div>
+
+        <!-- Main Info -->
+        <div class="col-lg-8">
+          <div class="section-card mb-4 shadow-sm border-0">
+            <div class="section-card-header p-4 bg-white">
+              <h5 class="mb-0" style="font-weight: 700; color: #1e293b;">Employment Details</h5>
+            </div>
+            <div class="section-card-body p-4 pt-0">
+              <div class="row g-4">
+                <div class="col-sm-6">
+                  <div class="p-3 bg-light rounded-3 h-100">
+                    <p style="font-size:0.75rem; color:#64748b; font-weight:700; text-transform:uppercase; margin-bottom:8px; letter-spacing: 0.03em;">Full Legal Name</p>
+                    <div style="font-weight:700; color: #1e293b;"><%= employee.name %></div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="p-3 bg-light rounded-3 h-100">
+                    <p style="font-size:0.75rem; color:#64748b; font-weight:700; text-transform:uppercase; margin-bottom:8px; letter-spacing: 0.03em;">Employee Type</p>
+                    <div style="font-weight:700; color: #1e293b;"><%= employee.type || 'Full-time' %></div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="p-3 bg-light rounded-3 h-100">
+                    <p style="font-size:0.75rem; color:#64748b; font-weight:700; text-transform:uppercase; margin-bottom:8px; letter-spacing: 0.03em;">Birth Date</p>
+                    <div style="font-weight:700; color: #1e293b;"><%= moment(employee.dateOfBirth).format('DD MMMM YYYY') %></div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="p-3 bg-light rounded-3 h-100">
+                    <p style="font-size:0.75rem; color:#64748b; font-weight:700; text-transform:uppercase; margin-bottom:8px; letter-spacing: 0.03em;">Join Date</p>
+                    <div style="font-weight:700; color: #1e293b;"><%= moment(employee.dateAdded).format('DD MMMM YYYY') %></div>
+                  </div>
+                </div>
               </div>
+              
+              <hr class="my-4 opacity-50" />
+              
+              <h6 style="font-weight:700; margin-bottom:1.25rem; color:#1e293b;">Competencies & Skills</h6>
               <% if(employee.Skills && employee.Skills.length > 0) { %>
-              <hr style="margin:1.5rem 0;" />
-              <h6 style="font-weight:700;margin-bottom:0.75rem;color:#374151;">Skills</h6>
               <div class="d-flex flex-wrap gap-2">
-                <% employee.Skills.forEach(function(s){ if(s){ %><span class="badge" style="background:#EFF6FF;color:#2490EF;border-radius:20px;font-size:0.8rem;padding:5px 12px;"><%= s %></span><% } }); %>
+                <% employee.Skills.forEach(function(s){ if(s){ %>
+                  <div class="badge-skill d-inline-flex align-items-center px-3 py-2" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; color: #475569; font-weight: 600; font-size: 0.85rem;">
+                    <i class="fa-solid fa-bolt text-warning me-2" style="font-size: 0.75rem;"></i><%= s %>
+                  </div>
+                <% } }); %>
               </div>
+              <% } else { %>
+                <p class="text-muted" style="font-size:0.9rem; font-style: italic;">No skills listed for this employee.</p>
               <% } %>
+            </div>
+          </div>
+
+          <div class="section-card shadow-sm border-0">
+            <div class="section-card-header p-4 bg-white d-flex justify-content-between align-items-center">
+              <h5 class="mb-0" style="font-weight: 700; color: #1e293b;">Bank & Salary Information</h5>
+              <div class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-weight: 700;">Confidential</div>
+            </div>
+            <div class="section-card-body p-4 pt-0">
+              <div class="row g-4 mt-1">
+                <div class="col-md-12">
+                   <div class="p-4" style="background: #f1f5f9; border-radius: 16px; border-left: 4px solid var(--primary);">
+                      <div class="row">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                          <p style="font-size:0.75rem; color:#64748b; font-weight:700; text-transform:uppercase; margin-bottom:4px;">Main Bank Account</p>
+                          <div class="d-flex align-items-center mt-2">
+                            <i class="fa-solid fa-building-columns me-3 text-primary opacity-50" style="font-size: 1.25rem;"></i>
+                            <div>
+                               <div style="font-weight:700; color: #1e293b;"><%= (typeof latestPaySlip !== 'undefined' && latestPaySlip.bankName) ? latestPaySlip.bankName : 'Not Set' %></div>
+                               <div style="font-size:0.8rem; color:#64748b; height: 1.2em; overflow: hidden; max-width: 180px;"><%= (typeof latestPaySlip !== 'undefined' && latestPaySlip.branchAddress) ? latestPaySlip.branchAddress : 'No account details found.' %></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                           <p style="font-size:0.75rem; color:#64748b; font-weight:700; text-transform:uppercase; margin-bottom:4px;">Package & Compensation</p>
+                           <div class="d-flex align-items-center mt-2">
+                             <i class="fa-solid fa-sack-dollar me-3 text-primary opacity-50" style="font-size: 1.25rem;"></i>
+                             <div>
+                               <div style="font-weight:700; color: #1e293b;">Monthly: ₹<%= (typeof salaryInfo !== 'undefined' && salaryInfo.salary) ? salaryInfo.salary : 0 %></div>
+                               <div style="font-size:0.8rem; color:#64748b;">Annual Bonus: ₹<%= (typeof salaryInfo !== 'undefined' && salaryInfo.bonus) ? salaryInfo.bonus : 0 %></div>
+                             </div>
+                           </div>
+                        </div>
+                      </div>
+                   </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:400px;">
+      <div class="modal-content border-0" style="border-radius:16px;">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title" style="font-weight:700;">Confirm Action</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body"><p style="color:#6b7280;">Are you sure you want to permanently delete <strong><%= employee.name %></strong>? All associated records will be lost.</p></div>
+        <div class="modal-footer border-0">
+          <form id="modal-delete-form" method="post" action="">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            <button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-danger px-4">Delete Permanently</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/scripts') %>
+  <script>
+    document.querySelectorAll('.delete-button').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.getElementById('modal-delete-form').action = '/admin/delete-employee/' + this.getAttribute('data-id');
+        new bootstrap.Modal(document.getElementById('deleteModal')).show();
+      });
+    });
+  </script>
+</body>
+</html>
   </div>
   <%- include('../partials/scripts') %>
 </body>
