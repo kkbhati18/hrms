@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header') %>
+<body>
+  <%- include('../partials/sidebar_admin', { activePage: 'attendance' }) %>
+  <div id="main-content">
+    <%- include('../partials/navbar', { pageTitle: 'Attendance Management', userName, csrfToken, profileUrl: '/admin/view-profile', userRole: 'Administrator' }) %>
+
+    <div class="page-inner">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+          <h5 style="font-weight:700;margin:0;color:#1a202c;">Attendance — <%= todayDate %></h5>
+          <p style="color:#6b7280;font-size:0.83rem;margin:2px 0 0;">Mark and view attendance for today</p>
+        </div>
+        <form method="post" action="/admin/mark-attendance">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <button type="submit" class="btn btn-success btn-sm">
+            <i class="fa-solid fa-calendar-check me-2"></i>Mark My Attendance
+          </button>
+        </form>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h6><i class="fa-solid fa-users me-2 text-primary"></i>Employee Attendance Today</h6>
+          <span class="badge bg-primary bg-opacity-10 text-primary" style="border-radius:20px;">
+            <%= [...markedIds].length %> / <%= employees.length %> Present
+          </span>
+        </div>
+        <div class="section-card-body">
+          <table class="table table-modern dt-table mb-0">
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Department</th>
+                <th>Role</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% employees.forEach(function(emp) { %>
+              <% const isPresent = markedIds.has(emp._id.toString()); %>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2490EF,#6366f1);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;flex-shrink:0;">
+                      <%= emp.name.charAt(0).toUpperCase() %>
+                    </div>
+                    <div>
+                      <div style="font-weight:500;font-size:0.87rem;"><%= emp.name %></div>
+                      <div style="font-size:0.75rem;color:#9ca3af;"><%= emp.email %></div>
+                    </div>
+                  </div>
+                </td>
+                <td style="font-size:0.85rem;color:#6b7280;"><%= emp.department || '—' %></td>
+                <td>
+                  <% if(emp.type==='employee') { %><span class="badge" style="background:#EBF5FF;color:#2490EF;border-radius:20px;padding:4px 10px;">Employee</span>
+                  <% } else if(emp.type==='project_manager') { %><span class="badge" style="background:#FAF5FF;color:#A855F7;border-radius:20px;padding:4px 10px;">PM</span>
+                  <% } else { %><span class="badge" style="background:#FFF7ED;color:#F97316;border-radius:20px;padding:4px 10px;">Accounts</span><% } %>
+                </td>
+                <td>
+                  <% if (isPresent) { %>
+                  <span class="badge" style="background:#F0FDF4;color:#22C55E;border-radius:20px;padding:4px 12px;font-weight:600;">
+                    <i class="fa-solid fa-circle-check me-1"></i>Present
+                  </span>
+                  <% } else { %>
+                  <span class="badge" style="background:#FFF1F2;color:#F43F5E;border-radius:20px;padding:4px 12px;font-weight:600;">
+                    <i class="fa-solid fa-circle-xmark me-1"></i>Absent
+                  </span>
+                  <% } %>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/scripts') %>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<div id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon"><i class="fa-solid fa-building-user"></i></div>
+    <span class="brand-text">HRMS</span>
+  </div>
+
+  <ul class="sidebar-nav nav flex-column mt-1">
+    <li class="nav-item">
+      <a href="/manager/" class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>">
+        <i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Team</div>
+    <li class="nav-item">
+      <a href="/manager/view-employees" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'employees' ? 'active' : '' %>">
+        <i class="fa-solid fa-users"></i><span>My Team</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Leaves</div>
+    <li class="nav-item">
+      <a href="/manager/applied-leaves" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'leaves' ? 'active' : '' %>">
+        <i class="fa-solid fa-calendar-xmark"></i><span>Leave Applications</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/manager/apply-for-leave" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'apply-leave' ? 'active' : '' %>">
+        <i class="fa-solid fa-paper-plane"></i><span>Apply for Leave</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Attendance</div>
+    <li class="nav-item">
+      <a href="/manager/view-attendance" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'attendance' ? 'active' : '' %>">
+        <i class="fa-solid fa-calendar-check"></i><span>My Attendance</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/manager/employees-attendance" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'team-attendance' ? 'active' : '' %>">
+        <i class="fa-solid fa-clipboard-list"></i><span>Team Attendance</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Projects</div>
+    <li class="nav-item">
+      <a href="/manager/view-personal-projects" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'projects' ? 'active' : '' %>">
+        <i class="fa-solid fa-diagram-project"></i><span>My Projects</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Performance</div>
+    <li class="nav-item">
+      <a href="/manager/performance-appraisal" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'appraisal' ? 'active' : '' %>">
+        <i class="fa-solid fa-star-half-stroke"></i><span>Performance Appraisal</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Payroll</div>
+    <li class="nav-item">
+      <a href="/manager/generate-payslip" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'payslip' ? 'active' : '' %>">
+        <i class="fa-solid fa-file-invoice-dollar"></i><span>Generate Payslip</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Account</div>
+    <li class="nav-item">
+      <a href="/manager/view-profile" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'profile' ? 'active' : '' %>">
+        <i class="fa-solid fa-circle-user"></i><span>My Profile</span>
+      </a>
+    </li>
+  </ul>
+</div>

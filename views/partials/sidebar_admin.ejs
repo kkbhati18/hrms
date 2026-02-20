@@ -1,0 +1,99 @@
+<div id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon"><i class="fa-solid fa-building-user"></i></div>
+    <span class="brand-text">HRMS</span>
+  </div>
+
+  <ul class="sidebar-nav nav flex-column mt-1">
+    <li class="nav-item">
+      <a href="/admin/" class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>">
+        <i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">People</div>
+    <li class="nav-item">
+      <a href="#submenu-employees" data-bs-toggle="collapse" class="nav-link collapsed
+        <%= typeof activePage !== 'undefined' && ['employees','add-employee'].includes(activePage) ? 'active' : '' %>">
+        <i class="fa-solid fa-users"></i><span>Employees</span>
+        <i class="fa-solid fa-chevron-down ms-auto submenu-arrow" style="font-size:0.7rem;"></i>
+      </a>
+      <ul class="collapse sidebar-submenu nav flex-column
+        <%= typeof activePage !== 'undefined' && ['employees','add-employee'].includes(activePage) ? 'show' : '' %>"
+        id="submenu-employees">
+        <li class="nav-item">
+          <a href="/admin/view-all-employees" class="nav-link
+            <%= typeof activePage !== 'undefined' && activePage === 'employees' ? 'active' : '' %>">
+            <i class="fa-solid fa-list"></i><span>All Employees</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/admin/add-employee" class="nav-link
+            <%= typeof activePage !== 'undefined' && activePage === 'add-employee' ? 'active' : '' %>">
+            <i class="fa-solid fa-user-plus"></i><span>Add Employee</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="nav-item">
+      <a href="/admin/recruitment" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'recruitment' ? 'active' : '' %>">
+        <i class="fa-solid fa-briefcase"></i><span>Recruitment</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Time & Attendance</div>
+    <li class="nav-item">
+      <a href="/admin/leave-applications" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'leaves' ? 'active' : '' %>">
+        <i class="fa-solid fa-calendar-xmark"></i><span>Leave Applications</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/admin/attendance" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'attendance' ? 'active' : '' %>">
+        <i class="fa-solid fa-calendar-check"></i><span>Attendance</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/admin/holidays" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'holidays' ? 'active' : '' %>">
+        <i class="fa-solid fa-umbrella-beach"></i><span>Holidays</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Projects</div>
+    <li class="nav-item">
+      <a href="#submenu-projects" data-bs-toggle="collapse" class="nav-link collapsed
+        <%= typeof activePage !== 'undefined' && ['projects','add-project'].includes(activePage) ? 'active' : '' %>">
+        <i class="fa-solid fa-diagram-project"></i><span>Projects</span>
+        <i class="fa-solid fa-chevron-down ms-auto submenu-arrow" style="font-size:0.7rem;"></i>
+      </a>
+      <ul class="collapse sidebar-submenu nav flex-column
+        <%= typeof activePage !== 'undefined' && ['projects','add-project'].includes(activePage) ? 'show' : '' %>"
+        id="submenu-projects">
+        <li class="nav-item">
+          <a href="/admin/view-all-projects" class="nav-link
+            <%= typeof activePage !== 'undefined' && activePage === 'projects' ? 'active' : '' %>">
+            <i class="fa-solid fa-list"></i><span>All Projects</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/admin/add-project" class="nav-link
+            <%= typeof activePage !== 'undefined' && activePage === 'add-project' ? 'active' : '' %>">
+            <i class="fa-solid fa-plus"></i><span>Add Project</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <div class="sidebar-section-title">Account</div>
+    <li class="nav-item">
+      <a href="/admin/view-profile" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'profile' ? 'active' : '' %>">
+        <i class="fa-solid fa-circle-user"></i><span>My Profile</span>
+      </a>
+    </li>
+  </ul>
+</div>

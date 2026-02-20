@@ -1,0 +1,63 @@
+<!-- Top Navbar: pass userName, pageTitle -->
+<div class="top-navbar">
+  <button class="nav-btn" id="sidebarToggle" title="Toggle Sidebar">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <span class="page-title"><%= typeof pageTitle !== 'undefined' ? pageTitle : title %></span>
+
+  <!-- Notification Bell -->
+  <button class="nav-btn" title="Notifications">
+    <i class="fa-solid fa-bell"></i>
+  </button>
+
+  <!-- User Dropdown -->
+  <div class="dropdown">
+    <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown" style="list-style:none;" title="<%= userName %>">
+      <%= userName ? userName.charAt(0).toUpperCase() : 'U' %>
+    </div>
+    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" style="min-width:200px;">
+      <li class="px-3 py-2 border-bottom">
+        <div style="font-weight:600;font-size:0.88rem;color:#2d3748;"><%= userName %></div>
+        <div style="font-size:0.75rem;color:#6b7280;"><%= typeof userRole !== 'undefined' ? userRole : '' %></div>
+      </li>
+      <li><a class="dropdown-item" href="<%= typeof profileUrl !== 'undefined' ? profileUrl : '#' %>">
+        <i class="fa-solid fa-circle-user me-2 text-primary"></i>My Profile</a></li>
+      <li><hr class="dropdown-divider my-1"></li>
+      <li>
+        <form action="/logout" method="get" style="margin:0;">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <button type="submit" class="dropdown-item text-danger">
+            <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+          </button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Toast container for flash messages -->
+<div class="toast-container">
+  <% if (typeof successMsg !== 'undefined' && successMsg) { %>
+  <div class="toast align-items-center text-bg-success border-0 show" role="alert">
+    <div class="d-flex">
+      <div class="toast-body"><i class="fa-solid fa-circle-check me-2"></i><%= successMsg %></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+  <% } %>
+  <% if (typeof errorMsg !== 'undefined' && errorMsg) { %>
+  <div class="toast align-items-center text-bg-danger border-0 show" role="alert">
+    <div class="d-flex">
+      <div class="toast-body"><i class="fa-solid fa-circle-exclamation me-2"></i><%= errorMsg %></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+  <% } %>
+</div>
+
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+    document.getElementById('main-content').classList.toggle('collapsed');
+  });
+</script>

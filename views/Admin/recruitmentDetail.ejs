@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header') %>
+<body>
+  <%- include('../partials/sidebar_admin', { activePage: 'recruitment' }) %>
+  <div id="main-content">
+    <%- include('../partials/navbar', { pageTitle: job.title, userName, csrfToken, profileUrl: '/admin/view-profile', userRole: 'Administrator' }) %>
+
+    <div class="page-inner">
+      <div class="mb-4 d-flex align-items-center justify-content-between">
+        <a href="/admin/recruitment" class="btn btn-outline-secondary btn-sm">
+          <i class="fa-solid fa-arrow-left me-1"></i>All Jobs
+        </a>
+        <form method="post" action="/admin/recruitment/update-status/<%= job._id %>">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <% if(job.status !== 'Closed') { %>
+          <button type="submit" name="status" value="Closed" class="btn btn-outline-danger btn-sm">Close Job</button>
+          <% } else { %>
+          <button type="submit" name="status" value="Open" class="btn btn-outline-success btn-sm">Reopen Job</button>
+          <% } %>
+        </form>
+      </div>
+
+      <div class="row g-4">
+        <!-- Job Details -->
+        <div class="col-md-4">
+          <div class="section-card">
+            <div class="section-card-header"><h6><i class="fa-solid fa-briefcase me-2 text-primary"></i>Job Details</h6></div>
+            <div class="section-card-body p-3">
+              <div class="mb-3">
+                <div style="font-size:0.75rem;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Title</div>
+                <div style="font-weight:600;"><%= job.title %></div>
+              </div>
+              <div class="mb-3">
+                <div style="font-size:0.75rem;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Department</div>
+                <div><%= job.department %></div>
+              </div>
+              <div class="mb-3">
+                <div style="font-size:0.75rem;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Type</div>
+                <span class="badge bg-primary bg-opacity-10 text-primary" style="border-radius:20px;"><%= job.type %></span>
+              </div>
+              <div class="mb-3">
+                <div style="font-size:0.75rem;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Openings</div>
+                <div style="font-weight:700;font-size:1.3rem;color:#2490EF;"><%= job.openings %></div>
+              </div>
+              <div class="mb-3">
+                <div style="font-size:0.75rem;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Experience</div>
+                <div><%= job.experienceRequired %></div>
+              </div>
+              <div class="mb-3">
+                <div style="font-size:0.75rem;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Posted</div>
+                <div><%= moment(job.postedAt).format('DD MMM YYYY') %></div>
+              </div>
+              <% if(job.closingDate) { %>
+              <div class="mb-3">
+                <div style="font-size:0.75rem;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Closing Date</div>
+                <div><%= moment(job.closingDate).format('DD MMM YYYY') %></div>
+              </div>
+              <% } %>
+              <div>
+                <div style="font-size:0.75rem;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Status</div>
+                <% if(job.status==='Open') { %>
+                <span class="badge" style="background:#F0FDF4;color:#22C55E;border-radius:20px;padding:4px 10px;">Open</span>
+                <% } else { %>
+                <span class="badge" style="background:#FFF1F2;color:#F43F5E;border-radius:20px;padding:4px 10px;"><%= job.status %></span>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description & Applicants -->
+        <div class="col-md-8">
+          <div class="section-card mb-3">
+            <div class="section-card-header"><h6><i class="fa-solid fa-file-lines me-2 text-primary"></i>Job Description</h6></div>
+            <div class="section-card-body p-3" style="font-size:0.87rem;line-height:1.6;color:#374151;white-space:pre-wrap;"><%= job.jobDescription %></div>
+          </div>
+
+          <div class="section-card mb-3">
+            <div class="section-card-header"><h6><i class="fa-solid fa-list-check me-2 text-primary"></i>Requirements</h6></div>
+            <div class="section-card-body p-3" style="font-size:0.87rem;line-height:1.6;color:#374151;white-space:pre-wrap;"><%= job.requirements %></div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-card-header">
+              <h6><i class="fa-solid fa-users me-2 text-primary"></i>Applicants</h6>
+              <span class="badge bg-primary bg-opacity-10 text-primary" style="border-radius:20px;"><%= job.applicants.length %></span>
+            </div>
+            <div class="section-card-body">
+              <% if(job.applicants.length > 0) { %>
+              <table class="table table-modern mb-0">
+                <thead><tr><th>Name</th><th>Email</th><th>Applied</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody>
+                  <% job.applicants.forEach(function(a) { %>
+                  <tr>
+                    <td style="font-weight:500;"><%= a.name %></td>
+                    <td style="font-size:0.83rem;"><%= a.email %></td>
+                    <td style="font-size:0.82rem;color:#6b7280;"><%= moment(a.appliedAt).format('DD MMM YYYY') %></td>
+                    <td>
+                      <% const sc = {Applied:'bg-secondary',Shortlisted:'bg-info',Interview:'bg-warning',Offered:'bg-success',Rejected:'bg-danger'}; %>
+                      <span class="badge <%= sc[a.status] %> bg-opacity-10 text-dark" style="border-radius:20px;font-size:0.75rem;"><%= a.status %></span>
+                    </td>
+                    <td>
+                      <form method="post" action="/admin/recruitment/<%= job._id %>/applicant-status/<%= a._id %>" class="d-flex gap-1">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                        <select name="status" class="form-select form-select-sm" style="width:auto;">
+                          <% ['Applied','Shortlisted','Interview','Offered','Rejected'].forEach(s => { %>
+                          <option value="<%= s %>" <%= a.status===s?'selected':'' %>><%= s %></option>
+                          <% }); %>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary" style="font-size:0.75rem;">Save</button>
+                      </form>
+                    </td>
+                  </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+              <% } else { %>
+              <div class="text-center py-4" style="color:#9ca3af;font-size:0.87rem;">No applicants yet.</div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/scripts') %>
+</body>
+</html>

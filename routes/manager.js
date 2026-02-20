@@ -14,15 +14,33 @@ router.use("/", isLoggedIn, function checkAuthentication(req, res, next) {
 });
 
 /**
- * Displays home to the manager
+ * Displays home to the manager with dashboard statistics
  */
-
-router.get("/", function viewHomePage(req, res, next) {
-  res.render("Manager/managerHome", {
-    title: "Manager Home",
-    csrfToken: req.csrfToken(),
-    userName: req.user.name,
-  });
+router.get("/", async function viewHomePage(req, res, next) {
+  try {
+    const today = new Date();
+    const [teamCount, pendingLeaves, projectCount, appraisalCount] = await Promise.all([
+      User.countDocuments({ type: "employee" }),
+      Leave.countDocuments({ adminResponse: "N/A" }),
+      Project.countDocuments({ employeeID: req.user._id }),
+      PerformanceAppraisal.countDocuments({ projectManagerID: req.user._id }),
+    ]);
+    const userRole = req.user.type === "project_manager" ? "Project Manager" : "Accounts Manager";
+    res.render("Manager/managerHome", {
+      title: "Dashboard",
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      userRole, teamCount, pendingLeaves, projectCount, appraisalCount,
+    });
+  } catch (err) {
+    const userRole = req.user.type === "project_manager" ? "Project Manager" : "Accounts Manager";
+    res.render("Manager/managerHome", {
+      title: "Dashboard",
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      userRole, teamCount: 0, pendingLeaves: 0, projectCount: 0, appraisalCount: 0,
+    });
+  }
 });
 
 /**

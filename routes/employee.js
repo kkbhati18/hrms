@@ -5,21 +5,42 @@ var Attendance = require("../models/attendance");
 var Project = require("../models/project");
 var moment = require("moment");
 var User = require("../models/user");
-var moment = require("moment");
+var Holiday = require("../models/holiday");
+var ExpenseClaim = require("../models/expense_claim");
 
 router.use("/", isLoggedIn, function checkAuthentication(req, res, next) {
   next();
 });
 
 /**
- * Displays home page to the employee.
+ * Displays home page to the employee with dashboard statistics.
  */
-router.get("/", function viewHome(req, res, next) {
-  res.render("Employee/employeeHome", {
-    title: "Home",
-    userName: req.user.name,
-    csrfToken: req.csrfToken(),
-  });
+router.get("/", async function viewHome(req, res, next) {
+  const today = new Date();
+  try {
+    const [leaveCount, pendingLeaves, projectCount, todayAttendance] = await Promise.all([
+      Leave.countDocuments({ applicantID: req.user._id }),
+      Leave.countDocuments({ applicantID: req.user._id, adminResponse: "N/A" }),
+      Project.countDocuments({ employeeID: req.user._id }),
+      Attendance.countDocuments({
+        employeeID: req.user._id, present: true,
+        date: today.getDate(), month: today.getMonth() + 1, year: today.getFullYear()
+      }),
+    ]);
+    res.render("Employee/employeeHome", {
+      title: "Dashboard",
+      userName: req.user.name,
+      csrfToken: req.csrfToken(),
+      leaveCount, pendingLeaves, projectCount, todayAttendance,
+    });
+  } catch (err) {
+    res.render("Employee/employeeHome", {
+      title: "Dashboard",
+      userName: req.user.name,
+      csrfToken: req.csrfToken(),
+      leaveCount: 0, pendingLeaves: 0, projectCount: 0, todayAttendance: 0,
+    });
+  }
 });
 
 /**
@@ -256,6 +277,70 @@ router.post(
     );
   }
 );
+// ─── Attendance page (GET with date picker) ────────────────────────────────
+router.get("/attendance", async (req, res) => {
+  const { month, year } = req.query;
+  const currentMonth = month ? parseInt(month) : new Date().getMonth() + 1;
+  const currentYear = year ? parseInt(year) : new Date().getFullYear();
+  try {
+    const attendance = await Attendance.find({
+      employeeID: req.user._id,
+      month: currentMonth,
+      year: currentYear,
+    }).sort({ date: 1 });
+    res.render("Employee/viewAttendance", {
+      title: "My Attendance",
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      attendance,
+      found: attendance.length > 0 ? 1 : 0,
+      month: currentMonth,
+      moment,
+    });
+  } catch (err) {
+    res.redirect("/employee/");
+  }
+});
+
+// ─── Expense Claims ──────────────────────────────────────────────────────────
+router.get("/expenses", async (req, res) => {
+  try {
+    const claims = await ExpenseClaim.find({ employeeID: req.user._id }).sort({ _id: -1 });
+    res.render("Employee/expenses", {
+      title: "Expense Claims",
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      claims,
+      moment,
+    });
+  } catch (err) {
+    res.redirect("/employee/");
+  }
+});
+
+router.get("/expenses/new", (req, res) => {
+  res.render("Employee/expenseNew", {
+    title: "File Expense Claim",
+    csrfToken: req.csrfToken(),
+    userName: req.user.name,
+    error: req.flash("error"),
+  });
+});
+
+router.post("/expenses/new", async (req, res) => {
+  const { title, category, amount, expenseDate, description } = req.body;
+  try {
+    await new ExpenseClaim({
+      employeeID: req.user._id,
+      title, category, amount, expenseDate, description,
+    }).save();
+    res.redirect("/employee/expenses");
+  } catch (err) {
+    req.flash("error", "Failed to submit claim.");
+    res.redirect("/employee/expenses/new");
+  }
+});
+
 module.exports = router;
 
 function isLoggedIn(req, res, next) {

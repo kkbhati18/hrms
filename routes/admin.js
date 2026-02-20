@@ -7,19 +7,46 @@ const config_passport = require("../config/passport.js");
 const moment = require("moment");
 const Leave = require("../models/leave");
 const Attendance = require("../models/attendance");
+const Holiday = require("../models/holiday");
+const ExpenseClaim = require("../models/expense_claim");
+const Recruitment = require("../models/recruitment");
 const { isLoggedIn } = require("./middleware");
 
 router.use("/", isLoggedIn, function isAuthenticated(req, res, next) {
   next();
 });
 
-// Displays home page to the admin
-router.get("/", function viewHome(req, res, next) {
-  res.render("Admin/adminHome", {
-    title: "Admin Home",
-    csrfToken: req.csrfToken(),
-    userName: req.user.name,
-  });
+// Displays home page to the admin with dashboard statistics
+router.get("/", async function viewHome(req, res, next) {
+  try {
+    const today = new Date();
+    const [totalEmployees, pendingLeaves, totalProjects, todayAttendance, recentEmployees] = await Promise.all([
+      User.countDocuments({ type: { $in: ["employee", "project_manager", "accounts_manager"] } }),
+      Leave.countDocuments({ adminResponse: "N/A" }),
+      Project.countDocuments(),
+      Attendance.countDocuments({ present: true, date: today.getDate(), month: today.getMonth() + 1, year: today.getFullYear() }),
+      User.find({ type: { $in: ["employee", "project_manager", "accounts_manager"] } }).sort({ _id: -1 }).limit(5),
+    ]);
+    res.render("Admin/adminHome", {
+      title: "Dashboard",
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      totalEmployees,
+      pendingLeaves,
+      totalProjects,
+      todayAttendance,
+      recentEmployees,
+      moment,
+    });
+  } catch (err) {
+    console.error(err);
+    res.render("Admin/adminHome", {
+      title: "Dashboard",
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      totalEmployees: 0, pendingLeaves: 0, totalProjects: 0, todayAttendance: 0, recentEmployees: [], moment,
+    });
+  }
 });
 
 /**
@@ -501,6 +528,226 @@ router.post("/mark-attendance", async (req, res) => {
     res.redirect("/admin/view-attendance-current");
   } catch (err) {
     console.log(err);
+  }
+});
+
+// ─── Attendance management page ──────────────────────────────────────────────
+router.get("/attendance", async (req, res) => {
+  const today = new Date();
+  try {
+    const employees = await User.find({
+      type: { $in: ["employee", "project_manager", "accounts_manager"] },
+    }).sort({ name: 1 });
+    const todayAttendance = await Attendance.find({
+      date: today.getDate(), month: today.getMonth() + 1, year: today.getFullYear(),
+    });
+    const markedIds = new Set(todayAttendance.map((a) => a.employeeID.toString()));
+    res.render("Admin/attendanceManage", {
+      title: "Attendance Management",
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      employees,
+      markedIds,
+      todayDate: moment(today).format("DD MMMM YYYY"),
+      moment,
+    });
+  } catch (err) {
+    console.error(err);
+    res.redirect("/admin/");
+  }
+});
+
+// ─── View all projects ────────────────────────────────────────────────────────
+router.get("/view-all-projects", async (req, res) => {
+  try {
+    const projects = await Project.find({}).sort({ _id: -1 });
+    const enriched = await Promise.all(
+      projects.map(async (p) => {
+        const emp = await User.findById(p.employeeID).catch(() => null);
+        return { project: p, employee: emp };
+      })
+    );
+    res.render("Admin/viewAllProjects", {
+      title: "All Projects",
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      projects: enriched,
+      moment,
+    });
+  } catch (err) {
+    console.error(err);
+    res.redirect("/admin/");
+  }
+});
+
+// ─── Add Project (standalone) ─────────────────────────────────────────────────
+router.get("/add-project", async (req, res) => {
+  try {
+    const employees = await User.find({ type: { $in: ["employee", "project_manager"] } });
+    res.render("Admin/addProjectStandalone", {
+      title: "Add Project",
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      employees,
+    });
+  } catch (err) {
+    res.redirect("/admin/view-all-projects");
+  }
+});
+
+router.post("/add-project", async (req, res) => {
+  const { employeeID, title, type, start_date, end_date, description, status } = req.body;
+  try {
+    await new Project({ employeeID, title, type, startDate: start_date, endDate: end_date, description, status }).save();
+    res.redirect("/admin/view-all-projects");
+  } catch (err) {
+    console.error(err);
+    res.redirect("/admin/add-project");
+  }
+});
+
+// ─── Holidays ─────────────────────────────────────────────────────────────────
+router.get("/holidays", async (req, res) => {
+  try {
+    const holidays = await Holiday.find({}).sort({ date: 1 });
+    res.render("Admin/holidays", {
+      title: "Holiday Management",
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      holidays,
+      moment,
+    });
+  } catch (err) {
+    console.error(err);
+    res.redirect("/admin/");
+  }
+});
+
+router.post("/holidays/add", async (req, res) => {
+  const { name, date, type, description } = req.body;
+  try {
+    await new Holiday({ name, date, type, description, createdBy: req.user._id }).save();
+    res.redirect("/admin/holidays");
+  } catch (err) {
+    console.error(err);
+    res.redirect("/admin/holidays");
+  }
+});
+
+router.post("/holidays/delete/:id", async (req, res) => {
+  try {
+    await Holiday.findByIdAndRemove(req.params.id);
+    res.redirect("/admin/holidays");
+  } catch (err) {
+    res.redirect("/admin/holidays");
+  }
+});
+
+// ─── Expense Claims ───────────────────────────────────────────────────────────
+router.get("/expense-claims", async (req, res) => {
+  try {
+    const claims = await ExpenseClaim.find({}).sort({ _id: -1 });
+    const enriched = await Promise.all(
+      claims.map(async (c) => ({
+        claim: c,
+        employee: await User.findById(c.employeeID).catch(() => null),
+      }))
+    );
+    res.render("Admin/expenseClaims", {
+      title: "Expense Claims",
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      claims: enriched,
+      moment,
+    });
+  } catch (err) {
+    console.error(err);
+    res.redirect("/admin/");
+  }
+});
+
+router.post("/expense-claims/review/:id", async (req, res) => {
+  try {
+    const claim = await ExpenseClaim.findById(req.params.id);
+    claim.status = req.body.status;
+    claim.reviewNote = req.body.reviewNote || "";
+    claim.reviewedBy = req.user._id;
+    claim.reviewedAt = new Date();
+    await claim.save();
+    res.redirect("/admin/expense-claims");
+  } catch (err) {
+    res.redirect("/admin/expense-claims");
+  }
+});
+
+// ─── Recruitment ──────────────────────────────────────────────────────────────
+router.get("/recruitment", async (req, res) => {
+  try {
+    const jobs = await Recruitment.find({}).sort({ _id: -1 });
+    res.render("Admin/recruitment", {
+      title: "Recruitment",
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      jobs,
+      moment,
+    });
+  } catch (err) {
+    console.error(err);
+    res.redirect("/admin/");
+  }
+});
+
+router.get("/recruitment/new", (req, res) => {
+  res.render("Admin/recruitmentNew", {
+    title: "Post Job",
+    csrfToken: req.csrfToken(),
+    userName: req.user.name,
+  });
+});
+
+router.post("/recruitment/new", async (req, res) => {
+  const { title, department, jobDescription, requirements, openings, type, experienceRequired, closingDate } = req.body;
+  try {
+    await new Recruitment({ title, department, jobDescription, requirements, openings, type, experienceRequired, closingDate, postedBy: req.user._id }).save();
+    res.redirect("/admin/recruitment");
+  } catch (err) {
+    console.error(err);
+    res.redirect("/admin/recruitment/new");
+  }
+});
+
+router.post("/recruitment/update-status/:id", async (req, res) => {
+  try {
+    await Recruitment.findByIdAndUpdate(req.params.id, { status: req.body.status });
+    res.redirect("/admin/recruitment");
+  } catch (err) {
+    res.redirect("/admin/recruitment");
+  }
+});
+
+router.get("/recruitment/:id", async (req, res) => {
+  try {
+    const job = await Recruitment.findById(req.params.id);
+    res.render("Admin/recruitmentDetail", {
+      title: job.title,
+      csrfToken: req.csrfToken(),
+      userName: req.user.name,
+      job,
+      moment,
+    });
+  } catch (err) {
+    res.redirect("/admin/recruitment");
+  }
+});
+
+router.post("/recruitment/:id/applicant-status/:appId", async (req, res) => {
+  try {
+    const job = await Recruitment.findById(req.params.id);
+    const applicant = job.applicants.id(req.params.appId);
+    if (applicant) { applicant.status = req.body.status; await job.save(); }
+    res.redirect(`/admin/recruitment/${req.params.id}`);
+  } catch (err) {
+    res.redirect("/admin/recruitment");
   }
 });
 

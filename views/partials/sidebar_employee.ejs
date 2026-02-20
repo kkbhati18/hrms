@@ -1,0 +1,66 @@
+<div id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon"><i class="fa-solid fa-building-user"></i></div>
+    <span class="brand-text">HRMS</span>
+  </div>
+
+  <ul class="sidebar-nav nav flex-column mt-1">
+    <li class="nav-item">
+      <a href="/employee/" class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>">
+        <i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Leaves</div>
+    <li class="nav-item">
+      <a href="/employee/applied-leaves" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'my-leaves' ? 'active' : '' %>">
+        <i class="fa-solid fa-calendar-xmark"></i><span>My Leaves</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/employee/apply-for-leave" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'apply-leave' ? 'active' : '' %>">
+        <i class="fa-solid fa-paper-plane"></i><span>Apply for Leave</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Attendance</div>
+    <li class="nav-item">
+      <a href="/employee/attendance" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'attendance' ? 'active' : '' %>">
+        <i class="fa-solid fa-calendar-check"></i><span>My Attendance</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Projects</div>
+    <li class="nav-item">
+      <a href="/employee/view-personal-projects" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'projects' ? 'active' : '' %>">
+        <i class="fa-solid fa-diagram-project"></i><span>My Projects</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Expenses</div>
+    <li class="nav-item">
+      <a href="/employee/expenses" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'expenses' ? 'active' : '' %>">
+        <i class="fa-solid fa-receipt"></i><span>Expense Claims</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/employee/expenses/new" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'new-expense' ? 'active' : '' %>">
+        <i class="fa-solid fa-plus-circle"></i><span>New Claim</span>
+      </a>
+    </li>
+
+    <div class="sidebar-section-title">Account</div>
+    <li class="nav-item">
+      <a href="/employee/view-profile" class="nav-link
+        <%= typeof activePage !== 'undefined' && activePage === 'profile' ? 'active' : '' %>">
+        <i class="fa-solid fa-circle-user"></i><span>My Profile</span>
+      </a>
+    </li>
+  </ul>
+</div>

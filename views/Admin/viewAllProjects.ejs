@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header') %>
+<body>
+  <%- include('../partials/sidebar_admin', { activePage: 'projects' }) %>
+  <div id="main-content">
+    <%- include('../partials/navbar', { pageTitle: 'All Projects', userName, csrfToken, profileUrl: '/admin/view-profile', userRole: 'Administrator' }) %>
+
+    <div class="page-inner">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+          <h5 style="font-weight:700;margin:0;color:#1a202c;">All Projects</h5>
+          <p style="color:#6b7280;font-size:0.83rem;margin:2px 0 0;"><%= projects.length %> project<%= projects.length !== 1 ? 's' : '' %> total</p>
+        </div>
+        <a href="/admin/add-project" class="btn btn-primary btn-sm">
+          <i class="fa-solid fa-plus me-2"></i>Add Project
+        </a>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-body">
+          <% if (projects.length > 0) { %>
+          <table class="table table-modern dt-table mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Project Name</th>
+                <th>Description</th>
+                <th>Employees</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% projects.forEach(function(p, i) { %>
+              <tr>
+                <td style="color:#9ca3af;font-size:0.83rem;"><%= i+1 %></td>
+                <td style="font-weight:600;"><%= p.projectName %></td>
+                <td style="font-size:0.85rem;color:#6b7280;max-width:300px;"><%= p.description ? p.description.substring(0,80) + (p.description.length>80?'...':'') : '—' %></td>
+                <td>
+                  <% if(p.employees && p.employees.length > 0) { %>
+                    <% p.employees.slice(0,3).forEach(function(emp) { %>
+                    <span class="badge me-1" style="background:#EFF6FF;color:#3B82F6;border-radius:20px;font-size:0.75rem;">
+                      <%= emp.firstName ? emp.firstName + ' ' + emp.lastName : emp %>
+                    </span>
+                    <% }); %>
+                    <% if(p.employees.length > 3) { %>
+                    <span class="badge" style="background:#F3F4F6;color:#6b7280;border-radius:20px;font-size:0.75rem;">+<%= p.employees.length-3 %> more</span>
+                    <% } %>
+                  <% } else { %>
+                  <span style="color:#9ca3af;font-size:0.83rem;">No employees</span>
+                  <% } %>
+                </td>
+                <td>
+                  <a href="/admin/project-info/<%= p._id %>" class="btn btn-sm btn-outline-secondary me-1"><i class="fa-solid fa-eye"></i></a>
+                  <a href="/admin/edit-project/<%= p._id %>" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+          <% } else { %>
+          <div class="text-center py-5" style="color:#9ca3af;">
+            <i class="fa-solid fa-diagram-project fa-3x mb-3 d-block"></i>
+            <p>No projects found.</p>
+            <a href="/admin/add-project" class="btn btn-primary btn-sm">Create First Project</a>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/scripts') %>
+</body>
+</html>

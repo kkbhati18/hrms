@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header') %>
+<body>
+  <%- include('../partials/sidebar_admin', { activePage: 'recruitment' }) %>
+  <div id="main-content">
+    <%- include('../partials/navbar', { pageTitle: 'Post New Job', userName, csrfToken, profileUrl: '/admin/view-profile', userRole: 'Administrator' }) %>
+
+    <div class="page-inner">
+      <div class="mb-4">
+        <a href="/admin/recruitment" class="btn btn-outline-secondary btn-sm me-2">
+          <i class="fa-solid fa-arrow-left me-1"></i>Back
+        </a>
+        <h5 class="d-inline-block ms-1" style="font-weight:700;color:#1a202c;">Post New Job Opening</h5>
+      </div>
+
+      <div class="form-card" style="max-width:700px;">
+        <form method="post" action="/admin/recruitment/new">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label class="form-label">Job Title *</label>
+              <input type="text" name="title" class="form-control" required placeholder="e.g. Senior Frontend Developer" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Type *</label>
+              <select name="type" class="form-select" required>
+                <option value="Full-Time">Full-Time</option>
+                <option value="Part-Time">Part-Time</option>
+                <option value="Contract">Contract</option>
+                <option value="Internship">Internship</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Department *</label>
+              <input type="text" name="department" class="form-control" required placeholder="e.g. Engineering" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Openings *</label>
+              <input type="number" name="openings" class="form-control" value="1" min="1" required />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Experience</label>
+              <input type="text" name="experienceRequired" class="form-control" placeholder="0-2 years" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Closing Date</label>
+              <input type="date" name="closingDate" class="form-control" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Job Description *</label>
+              <textarea name="jobDescription" class="form-control" rows="4" required placeholder="Describe the role, responsibilities, etc."></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Requirements *</label>
+              <textarea name="requirements" class="form-control" rows="3" required placeholder="Skills, qualifications, etc."></textarea>
+            </div>
+            <div class="col-12 d-flex gap-2">
+              <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane me-2"></i>Post Job</button>
+              <a href="/admin/recruitment" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/scripts') %>
+</body>
+</html>

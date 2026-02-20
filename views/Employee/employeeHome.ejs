@@ -1,163 +1,131 @@
 <!DOCTYPE html>
-<html>
-    <%- include('../partials/header') %>
+<html lang="en">
+<%- include('../partials/header') %>
+<body>
+  <%- include('../partials/sidebar_employee', { activePage: 'home' }) %>
+  <div id="main-content">
+    <%- include('../partials/navbar', { pageTitle: 'Dashboard', userName, csrfToken, profileUrl: '/employee/view-profile', userRole: 'Employee' }) %>
 
-    <body>
-        <nav class="navbar navbar-default no-margin">
-            <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="page-inner">
+      <!-- Welcome Banner -->
+      <div class="section-card mb-4" style="background:linear-gradient(135deg,#10B981,#2490EF);border:none;">
+        <div class="section-card-body" style="padding:24px 28px;">
+          <h4 style="color:#fff;font-weight:700;margin:0;">Welcome, <%= userName %>! 👋</h4>
+          <p style="color:rgba(255,255,255,0.8);margin:6px 0 0;font-size:0.9rem;">Track your attendance, leaves, and projects all in one place.</p>
+        </div>
+      </div>
 
-            <div class="navbar-header fixed-brand">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
-                    <span class="glyphicon glyphicon-th-large" style="margin-left: 5px" aria-hidden="true"></span>
-                </button>
-                <a class="navbar-brand" href="#"><i class="fa fa-a fa-4"></i>
-                    <%= userName %>
-                </a>
+      <!-- Stats -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="d-flex align-items-start justify-content-between">
+              <div>
+                <div class="stat-value"><%= leaveCount %></div>
+                <div class="stat-label">Total Leaves</div>
+              </div>
+              <div class="stat-icon" style="background:#FFF7ED;color:#F97316;"><i class="fa-solid fa-calendar-xmark"></i></div>
             </div>
-            <!-- navbar-header-->
+            <div class="stat-change" style="color:#F97316;"><i class="fa-solid fa-clock me-1"></i><%= pendingLeaves %> pending</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="d-flex align-items-start justify-content-between">
+              <div>
+                <div class="stat-value"><%= todayAttendance ? '✓' : '✗' %></div>
+                <div class="stat-label">Today's Status</div>
+              </div>
+              <div class="stat-icon" style="background:<%= todayAttendance ? '#F0FDF4' : '#FFF1F2' %>;color:<%= todayAttendance ? '#22C55E' : '#F43F5E' %>;"><i class="fa-solid fa-calendar-check"></i></div>
+            </div>
+            <div class="stat-change" style="color:<%= todayAttendance ? '#22C55E' : '#F43F5E' %>;"><%= todayAttendance ? 'Present' : 'Not marked yet' %></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="d-flex align-items-start justify-content-between">
+              <div>
+                <div class="stat-value"><%= projectCount %></div>
+                <div class="stat-label">My Projects</div>
+              </div>
+              <div class="stat-icon" style="background:#FAF5FF;color:#A855F7;"><i class="fa-solid fa-diagram-project"></i></div>
+            </div>
+            <div class="stat-change" style="color:#A855F7;"><i class="fa-solid fa-layer-group me-1"></i>Assigned</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="d-flex align-items-start justify-content-between">
+              <div>
+                <div class="stat-value">0</div>
+                <div class="stat-label">Expense Claims</div>
+              </div>
+              <div class="stat-icon" style="background:#ECFDF5;color:#10B981;"><i class="fa-solid fa-receipt"></i></div>
+            </div>
+            <div class="stat-change"><a href="/employee/expenses/new" style="color:#10B981;font-size:0.78rem;">File a claim →</a></div>
+          </div>
+        </div>
+      </div>
 
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2">
-                            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-                        </button>
-                    </li>
-                    <li class="navbar-brand">
-                        <form action="/logout" method="get">
-                            <button id="logout" type="submit" style="margin-top: -3px" class="btn btn-default">
-                                <i class="fa fa-user" aria-hidden="true"></i> Logout
-                            </button>
-                        </form>
-                    </li>
-                </ul>
+      <div class="row g-3">
+        <!-- Quick Actions -->
+        <div class="col-md-4">
+          <div class="section-card">
+            <div class="section-card-header"><h6><i class="fa-solid fa-bolt me-2 text-primary"></i>Quick Actions</h6></div>
+            <div class="section-card-body p-3">
+              <div class="d-grid gap-2">
+                <a href="/employee/apply-for-leave" class="btn btn-primary btn-sm"><i class="fa-solid fa-paper-plane me-2"></i>Apply for Leave</a>
+                <a href="/employee/attendance" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-calendar-check me-2"></i>Mark Attendance</a>
+                <a href="/employee/expenses/new" class="btn btn-outline-info btn-sm"><i class="fa-solid fa-receipt me-2"></i>File Expense Claim</a>
+                <a href="/employee/applied-leaves" class="btn btn-outline-warning btn-sm"><i class="fa-solid fa-list me-2"></i>My Leave History</a>
+                <a href="/employee/view-personal-projects" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-diagram-project me-2"></i>My Projects</a>
+              </div>
             </div>
-            <!-- bs-example-navbar-collapse-1 -->
-        </nav>
-        <div id="wrapper">
-            <!-- Sidebar -->
-            <div id="sidebar-wrapper">
-                <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-                    <li>
-                        <a href="/employee/applied-leaves"><span class="fa-stack fa-lg pull-left"><i
-                                    class="fa fa-dashboard fa-stack-1x"></i></span>
-                            View Leaves</a>
-                    </li>
-                    <li>
-                        <a href="/employee/apply-for-leave"><span class="fa-stack fa-lg pull-left"><i
-                                    class="fa fa-envelope-square fa-stack-1x"></i></span>Apply for Leave</a>
-                    </li>
-                    <li data-toggle="modal" data-target="#myModal">
-                        <a href="#">
-                            <span class="fa-stack fa-lg pull-left"><i class="fa fa-list-ol fa-stack-1x"></i></span>View
-                            Attendance</a>
-                    </li>
-                    <li data-toggle="modal" data-target="#myModal2">
-                        <a href="#"><span class="fa-stack fa-lg pull-left"><i
-                                    class="fa fa-check-circle fa-stack-1x"></i></span>Mark Attendance</a>
-                    </li>
-                    <li>
-                        <a href="/employee/view-profile"><span class="fa-stack fa-lg pull-left"><i
-                                    class="fa fa-user fa-stack-1x"></i></span>View Profile</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /#sidebar-wrapper -->
-            <!-- Page Content -->
-            <div id="page-content-wrapper">
-                <div class="container-fluid xyz">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h1>Welcome!</h1>
-                        </div>
-                    </div>
+          </div>
+        </div>
+
+        <!-- Module Cards -->
+        <div class="col-md-8">
+          <div class="section-card">
+            <div class="section-card-header"><h6><i class="fa-solid fa-grid-2 me-2 text-primary"></i>Self Service</h6></div>
+            <div class="section-card-body p-3">
+              <div class="row g-3">
+                <div class="col-6">
+                  <a href="/employee/applied-leaves" class="module-card">
+                    <div class="module-icon" style="background:#FFF7ED;color:#F97316;"><i class="fa-solid fa-calendar-xmark"></i></div>
+                    <div class="module-title">Leave Management</div>
+                    <div class="module-desc">Apply & track leaves</div>
+                  </a>
                 </div>
-            </div>
-            <!-- /#page-content-wrapper -->
-        </div>
-        <!-- /#wrapper -->
-        <!-- jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.js" charset="UTF-8"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js" charset="UTF-8"></script>
-
-        <script src="/javascripts/sidebar_menu.js"></script>
-        <script>
-            $(document).ready(function () {
-                for (i = new Date().getFullYear(); i > 1900; i--) {
-                    $("#year").append($("<option />").val(i).html(i));
-                }
-            });
-        </script>
-    </body>
-    <div id="myModal2" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <form method="post" action="/employee/mark-employee-attendance">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">
-                            &times;
-                        </button>
-                        <h4 class="modal-title">Mark Attendance</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to mark attendance.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                        <button type="reset" class="btn btn-default" data-dismiss="modal">
-                            No
-                        </button>
-                        <button type="submit" class="btn btn-default">Yes</button>
-                    </div>
+                <div class="col-6">
+                  <a href="/employee/attendance" class="module-card">
+                    <div class="module-icon" style="background:#F0FDF4;color:#22C55E;"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div class="module-title">Attendance</div>
+                    <div class="module-desc">Mark & view attendance</div>
+                  </a>
                 </div>
-            </form>
-        </div>
-    </div>
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <form method="post" action="/employee/view-attendance">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">
-                            &times;
-                        </button>
-                        <h4 class="modal-title">Select Month/Year</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="Month">Month:</label>
-                            <select class="form-control" id="month" name="month">
-                                <option value="1">January</option>
-                                <option value="2">February</option>
-                                <option value="3">March</option>
-                                <option value="4">April</option>
-                                <option value="5">May</option>
-                                <option value="6">June</option>
-                                <option value="7">July</option>
-                                <option value="8">August</option>
-                                <option value="9">September</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                                <option value="12">December</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="year">Year:</label>
-                            <select class="form-control" id="year" name="year"></select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                        <button type="reset" class="btn btn-default" data-dismiss="modal">
-                            Close
-                        </button>
-                        <button type="submit" class="btn btn-default">View</button>
-                    </div>
-                </form>
+                <div class="col-6">
+                  <a href="/employee/expenses" class="module-card">
+                    <div class="module-icon" style="background:#ECFDF5;color:#10B981;"><i class="fa-solid fa-receipt"></i></div>
+                    <div class="module-title">Expense Claims</div>
+                    <div class="module-desc">File reimbursements</div>
+                  </a>
+                </div>
+                <div class="col-6">
+                  <a href="/employee/view-personal-projects" class="module-card">
+                    <div class="module-icon" style="background:#FAF5FF;color:#A855F7;"><i class="fa-solid fa-diagram-project"></i></div>
+                    <div class="module-title">Projects</div>
+                    <div class="module-desc">View assigned work</div>
+                  </a>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
+  <%- include('../partials/scripts') %>
+</body>
 </html>

@@ -1,281 +1,65 @@
 <!DOCTYPE html>
-<html>
-    <%- include('../partials/header') %>
-
-    <body>
-        <nav class="navbar navbar-default no-margin">
-            <!-- Brand and toggle get grouped for better mobile display -->
-
-            <div class="navbar-header fixed-brand">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
-                    <span class="glyphicon glyphicon-th-large" style="margin-left: 5px" aria-hidden="true"></span>
-                </button>
-                <a class="navbar-brand" href="#"><i class="fa fa-a fa-4"></i>
-                    <%=userName%>
-                </a>
+<html lang="en">
+<%- include('../partials/header') %>
+<body>
+  <%- include('../partials/sidebar_admin', { activePage: 'leaves' }) %>
+  <div id="main-content">
+    <%- include('../partials/navbar', { pageTitle: 'Leave Application', userName, csrfToken, profileUrl: '/admin/view-profile', userRole: 'Administrator' }) %>
+    <div class="page-inner">
+      <div class="mb-4">
+        <a href="/admin/leave-applications" class="btn btn-outline-secondary btn-sm me-2"><i class="fa-solid fa-arrow-left me-1"></i>Back to Applications</a>
+        <h5 class="d-inline-block ms-1" style="font-weight:700;color:#1a202c;">Leave Application Details</h5>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-5">
+          <div class="section-card">
+            <div class="section-card-body">
+              <h6 style="font-weight:700;margin-bottom:1rem;color:#374151;">Applicant Info</h6>
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;font-weight:700;"><%= employee.name ? employee.name[0].toUpperCase() : 'E' %></div>
+                <div><div style="font-weight:600;"><%= employee.name %></div><div style="font-size:0.83rem;color:#6b7280;"><%= employee.email %></div></div>
+              </div>
+              <div class="row g-2">
+                <div class="col-6"><div style="font-size:0.78rem;color:#9ca3af;">Title</div><div style="font-weight:600;font-size:0.9rem;"><%= leave.title %></div></div>
+                <div class="col-6"><div style="font-size:0.78rem;color:#9ca3af;">Type</div><div style="font-weight:600;font-size:0.9rem;"><%= leave.type %></div></div>
+                <div class="col-6"><div style="font-size:0.78rem;color:#9ca3af;">Period</div><div style="font-weight:600;font-size:0.9rem;"><%= leave.period %> days</div></div>
+                <div class="col-6"><div style="font-size:0.78rem;color:#9ca3af;">Applied</div><div style="font-weight:600;font-size:0.9rem;"><%= moment(leave.appliedDate).format('DD MMM YYYY') %></div></div>
+                <div class="col-6"><div style="font-size:0.78rem;color:#9ca3af;">Start Date</div><div style="font-weight:600;font-size:0.9rem;"><%= moment(leave.startDate).format('DD MMM YYYY') %></div></div>
+                <div class="col-6"><div style="font-size:0.78rem;color:#9ca3af;">End Date</div><div style="font-weight:600;font-size:0.9rem;"><%= moment(leave.end_date).format('DD MMM YYYY') %></div></div>
+              </div>
+              <% if(leave.reason) { %>
+              <div class="mt-3"><div style="font-size:0.78rem;color:#9ca3af;margin-bottom:4px;">Reason</div><p style="font-size:0.9rem;color:#374151;background:#F9FAFB;border-radius:8px;padding:10px;"><%= leave.reason %></p></div>
+              <% } %>
             </div>
-            <!-- navbar-header-->
-
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2">
-                            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-                        </button>
-                    </li>
-                    <li class="navbar-brand">
-                        <form action="/logout" method="get">
-                            <button id="logout" type="submit" style="margin-top: -3px" class="btn btn-default">
-                                <i class="fa fa-user" aria-hidden="true"></i> Logout
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-            <!-- bs-example-navbar-collapse-1 -->
-        </nav>
-        <div id="wrapper">
-            <!-- Sidebar -->
-            <div id="sidebar-wrapper">
-                <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-                    <li>
-                        <a href="#" id="menu3"><span class="fa-stack fa-lg pull-left"><i
-                                    class="fa fa-users fa-stack-1x"></i></span>
-                            Employees</a>
-                        <ul class="nav-pills nav-stacked" style="list-style-type: none">
-                            <li>
-                                <a href="/admin/view-all-employees"><span class="fa-stack fa-lg pull-left"><i
-                                            class="fa fa-eye fa-stack-1x"></i></span>View Employees</a>
-                            </li>
-                            <li>
-                                <a href="/admin/add-employee"><span class="fa-stack fa-lg pull-left"><i
-                                            class="fa fa-plus fa-stack-1x"></i></span>Add Employees</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="/admin/leave-applications"><span class="fa-stack fa-lg pull-left"><i
-                                    class="fa fa-envelope-square fa-stack-1x"></i></span>
-                            Leave Applications</a>
-                    </li>
-                    <li data-toggle="modal" data-target="#myModal">
-                        <a href="#">
-                            <span class="fa-stack fa-lg pull-left"><i class="fa fa-list-ol fa-stack-1x"></i></span>View
-                            Attendance</a>
-                    </li>
-                    <li data-toggle="modal" data-target="#myModal2">
-                        <a href="#"><span class="fa-stack fa-lg pull-left"><i
-                                    class="fa fa-check-circle fa-stack-1x"></i></span>Mark Attendance</a>
-                    </li>
-                    <li>
-                        <a href="/admin/view-profile"><span class="fa-stack fa-lg pull-left"><i
-                                    class="fa fa-user fa-stack-1x"></i></span>View Profile</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /#sidebar-wrapper -->
-            <!-- Page Content -->
-            <div id="page-content-wrapper">
-                <div class="container-fluid xyz">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div id="menu1" style="height: 717px">
-                                <h1>Application's Details</h1>
-                                <br />
-                                <form class="form-group-sm" action="/admin/respond-application" method="post">
-                                    <h4>Title : <label id="title">
-                                            <%=leave.title%>
-                                        </label></h4>
-                                    <h4>Type : <label id="type">
-                                            <%=leave.type%>
-                                        </label></h4>
-                                    <h4>
-                                        Applicant's Name :
-                                        <label id="name">
-                                            <%=employee.name%>
-                                        </label>
-                                    </h4>
-                                    <h4>
-                                        Applicant's Email :
-                                        <label id="email">
-                                            <%=employee.email%>
-                                        </label>
-                                    </h4>
-                                    <h4>
-                                        Period(Days): <label id="period">
-                                            <%=leave.period%>
-                                        </label>
-                                    </h4>
-                                    <h4>
-                                        Start Date :
-                                        <label id="start">
-                                            <%=moment(leave.startDate).format('MMMM Do YYYY')%>
-                                        </label>
-                                    </h4>
-                                    <h4>
-                                        End Date :
-                                        <label id="end">
-                                            <%=moment(leave.end_date).format('MMMM Do YYYY')%>
-                                        </label>
-                                    </h4>
-                                    <h4>
-                                        Applied Date :
-                                        <label id="end">
-                                            <%=moment(leave.end_date).format('MMMM Do YYYY')%>
-                                        </label>
-                                    </h4>
-                                    <h4 style="font-size: x-large">Reason:</h4>
-                                    <div style="height: 100%; overflow: auto">
-                                        <p style="font-family: 'Arial Nova'; font-size: medium" id="reason"
-                                            style="word-wrap: break-word">
-                                            <%=leave.reason%>
-                                        </p>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="status">
-                                            <h4 style="font-size: x-large">Status:</h4>
-                                        </label>
-                                        <select class="form-control" id="status" name="status">
-                                            <option value="<%=leave.adminResponse%>">
-                                                <%=leave.adminResponse%>
-                                            </option>
-                                            <% if(leave.adminResponse!="Pending" ){%>
-                                                <option value="Pending">Pending</option>
-                                                <%}%>
-                                                    <% if(leave.adminResponse!="Approved" ){%>
-                                                        <option value="Approved">Approved</option>
-                                                        <%}%>
-                                                            <% if(leave.adminResponse!="Disapproved" ){%>
-                                                                <option value="Disapproved">Disapproved</option>
-                                                                <%}%>
-                                        </select>
-                                    </div>
-                                    <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
-                                    <input type="hidden" id="leave_id" name="leave_id" value="<%=leave._id%>" />
-                                    <button type="button" onclick="history.go(-1);" class="btn btn-default">
-                                        Go Back
-                                    </button>
-                                    <button type="submit" class="btn btn-default">
-                                        Submit Response
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /#page-content-wrapper -->
+          </div>
         </div>
-        <!-- /#wrapper -->
-        <!-- jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.js" charset="UTF-8"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js" charset="UTF-8"></script>
-        <script src="/javascripts/sidebar_menu.js"></script>
-        <script>
-            $(document).ready(function () {
-                var box1height = $("#menu1").height();
-                // Set box2 height equal to box1
-                $("#sidebar-wrapper").height(box1height * 1.1);
-                for (i = new Date().getFullYear(); i > 1950; i--) {
-                    $("#year").append($("<option />").val(i).html(i));
-                }
-            });
-        </script>
-    </body>
-    <div id="myModal1" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        &times;
-                    </button>
-                    <h4 class="modal-title">Confirmation</h4>
+        <div class="col-md-7">
+          <div class="section-card">
+            <div class="section-card-body">
+              <h6 style="font-weight:700;margin-bottom:1rem;color:#374151;">Respond to Application</h6>
+              <form method="post" action="/admin/respond-application">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                <input type="hidden" name="leaveID" value="<%= leave._id %>" />
+                <input type="hidden" name="employeeID" value="<%= employee._id %>" />
+                <div class="mb-3">
+                  <label class="form-label">Current Status</label>
+                  <select name="status" class="form-select">
+                    <option value="Pending" <%= leave.adminResponse === 'Pending' ? 'selected' : '' %>>Pending</option>
+                    <option value="Approved" <%= leave.adminResponse === 'Approved' ? 'selected' : '' %>>Approved</option>
+                    <option value="Disapproved" <%= leave.adminResponse === 'Disapproved' ? 'selected' : '' %>>Disapproved</option>
+                  </select>
                 </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to approve this application.</p>
+                <div class="d-flex gap-2 mt-4">
+                  <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane me-2"></i>Submit Response</button>
+                  <a href="/admin/leave-applications" class="btn btn-outline-secondary">Cancel</a>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        No
-                    </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        Yes
-                    </button>
-                </div>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-
-    <div id="myModal2" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <form method="post" action="/admin/mark-attendance">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">
-                            &times;
-                        </button>
-                        <h4 class="modal-title">Mark Attendance</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to mark attendance.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
-                        <button type="reset" class="btn btn-default" data-dismiss="modal">
-                            No
-                        </button>
-                        <button type="submit" class="btn btn-default">Yes</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <form method="post" action="/admin/view-attendance">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">
-                            &times;
-                        </button>
-                        <h4 class="modal-title">Select Month/Year</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="Month">Month:</label>
-                            <select class="form-control" id="month" name="month">
-                                <option value="1">January</option>
-                                <option value="2">February</option>
-                                <option value="3">March</option>
-                                <option value="4">April</option>
-                                <option value="5">May</option>
-                                <option value="6">June</option>
-                                <option value="7">July</option>
-                                <option value="8">August</option>
-                                <option value="9">September</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                                <option value="12">December</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="year">Year:</label>
-                            <select class="form-control" id="year" name="year"></select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
-                        <button type="reset" class="btn btn-default" data-dismiss="modal">
-                            Close
-                        </button>
-                        <button type="submit" class="btn btn-default">View</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
+  </div>
+  <%- include('../partials/scripts') %>
+</body>
 </html>
