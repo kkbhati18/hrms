@@ -1,26 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const User = require("../models/user");
+const indexController = require("../controllers/indexController");
 const { isLoggedIn } = require("./middleware");
 const csrf = require("csurf");
 const csrfProtection = csrf();
 router.use(csrfProtection);
 
-router.get("/", function viewLoginPage(req, res, next) {
-  if (req.isAuthenticated()) {
-    return res.redirect("/check-type");
-  }
-
-  const messages = req.flash("error");
-
-  res.render("login", {
-    title: "Log In",
-    csrfToken: req.csrfToken(),
-    messages: messages,
-    hasErrors: messages.length > 0,
-  });
-});
+router.get("/", indexController.viewLoginPage);
 
 router.post(
   "/login",
@@ -31,34 +18,11 @@ router.post(
   })
 );
 
-router.get("/check-type", function checkTypeOfLoggedInUser(req, res, next) {
-  req.session.user = req.user;
-  switch (req.user.type) {
-    case "project_manager":
-    case "accounts_manager":
-      res.redirect("/manager/");
-      break;
-    case "employee":
-      res.redirect("/employee/");
-      break;
-    default:
-      res.redirect("/admin/");
-  }
-});
+router.get("/check-type", indexController.checkTypeOfLoggedInUser);
 
-router.get("/logout", isLoggedIn, function logoutUser(req, res, next) {
-  req.logout();
-  res.redirect("/");
-});
+router.get("/logout", isLoggedIn, indexController.logoutUser);
 
-router.get("/signup", function signUp(req, res, next) {
-  const messages = req.flash("error");
-  res.render("signup", {
-    csrfToken: req.csrfToken(),
-    messages: messages,
-    hasErrors: messages.length > 0,
-  });
-});
+router.get("/signup", indexController.viewSignUpPage);
 
 router.post(
   "/signup",
@@ -69,13 +33,6 @@ router.post(
   })
 );
 
-router.get("/dummy", async function (req, res, next) {
-  try {
-    const users = await User.find({ type: "employee" });
-    res.render("dummy", { title: "Dummy", users });
-  } catch (err) {
-    console.log(err);
-  }
-});
+router.get("/dummy", indexController.dummyView);
 
 module.exports = router;
