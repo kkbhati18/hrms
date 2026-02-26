@@ -1,18 +1,18 @@
 <!-- Top Navbar: pass userName, pageTitle -->
-<div class="top-navbar">
-  <button class="nav-btn" id="sidebarToggle" title="Toggle Sidebar">
+<div class="bg-white border-bottom d-flex align-items-center px-4 gap-3 sticky-top" style="height:60px;z-index:1020;">
+  <button class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center" style="width:38px;height:38px;" id="sidebarToggle" title="Toggle Sidebar">
     <i class="fa-solid fa-bars"></i>
   </button>
-  <span class="page-title"><%= typeof pageTitle !== 'undefined' ? pageTitle : title %></span>
+  <span class="fw-semibold flex-grow-1"><%= typeof pageTitle !== 'undefined' ? pageTitle : title %></span>
 
   <!-- Notification Bell -->
-  <button class="nav-btn" title="Notifications">
+  <button class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center" style="width:38px;height:38px;" title="Notifications">
     <i class="fa-solid fa-bell"></i>
   </button>
 
   <!-- User Dropdown -->
   <div class="dropdown">
-    <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown" style="list-style:none;" title="<%= userName %>">
+    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold dropdown-toggle" style="width:36px;height:36px;font-size:0.85rem;cursor:pointer;" data-bs-toggle="dropdown" title="<%= userName %>">
       <%= userName ? userName.charAt(0).toUpperCase() : 'U' %>
     </div>
     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" style="min-width:200px;">
@@ -36,7 +36,7 @@
 </div>
 
 <!-- Toast container for flash messages -->
-<div class="toast-container">
+<div class="toast-container position-fixed end-0 p-3" style="z-index:9999;top:65px;">
   <% if (typeof successMsg !== 'undefined' && successMsg) { %>
   <div class="toast align-items-center text-bg-success border-0 show" role="alert">
     <div class="d-flex">

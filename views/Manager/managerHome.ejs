@@ -6,10 +6,10 @@
   <div id="main-content">
     <%- include('../partials/navbar', { pageTitle: 'Dashboard', userName, csrfToken, profileUrl: '/manager/view-profile', userRole: userRole }) %>
 
-    <div class="page-inner">
+    <div class="p-4">
       <!-- Welcome Banner -->
-      <div class="section-card mb-4" style="background:linear-gradient(135deg,#6366f1,#2490EF);border:none;">
-        <div class="section-card-body" style="padding:24px 28px;">
+      <div class="card mb-4" style="background:linear-gradient(135deg,#6366f1,#2490EF);border:none;">
+        <div class="card-body" style="padding:24px 28px;">
           <h4 style="color:#fff;font-weight:700;margin:0;">Welcome, <%= userName %>! 👋</h4>
           <p style="color:rgba(255,255,255,0.8);margin:6px 0 0;font-size:0.9rem;">Manage your team, projects, payroll and performance from here.</p>
         </div>
@@ -18,39 +18,39 @@
       <!-- Stats -->
       <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
-          <div class="stat-card">
+          <div class="card p-4 h-100">
             <div class="d-flex align-items-start justify-content-between">
-              <div><div class="stat-value"><%= teamCount || 0 %></div><div class="stat-label">Team Members</div></div>
-              <div class="stat-icon" style="background:#EBF5FF;color:#2490EF;"><i class="fa-solid fa-users"></i></div>
+              <div><div class="fs-2 fw-bold lh-1"><%= teamCount || 0 %></div><div class="small text-muted mt-1">Team Members</div></div>
+              <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 fs-5" style="width:48px;height:48px;background:#EBF5FF;color:#2490EF;"><i class="fa-solid fa-users"></i></div>
             </div>
-            <div class="stat-change text-primary"><i class="fa-solid fa-user-check me-1"></i>Active</div>
+            <div class="small mt-2 text-primary"><i class="fa-solid fa-user-check me-1"></i>Active</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
-          <div class="stat-card">
+          <div class="card p-4 h-100">
             <div class="d-flex align-items-start justify-content-between">
-              <div><div class="stat-value"><%= pendingLeaves || 0 %></div><div class="stat-label">Leave Requests</div></div>
-              <div class="stat-icon" style="background:#FFF7ED;color:#F97316;"><i class="fa-solid fa-calendar-xmark"></i></div>
+              <div><div class="fs-2 fw-bold lh-1"><%= pendingLeaves || 0 %></div><div class="small text-muted mt-1">Leave Requests</div></div>
+              <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 fs-5" style="width:48px;height:48px;background:#FFF7ED;color:#F97316;"><i class="fa-solid fa-calendar-xmark"></i></div>
             </div>
-            <div class="stat-change text-warning"><i class="fa-solid fa-clock me-1"></i>Pending</div>
+            <div class="small mt-2 text-warning"><i class="fa-solid fa-clock me-1"></i>Pending</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
-          <div class="stat-card">
+          <div class="card p-4 h-100">
             <div class="d-flex align-items-start justify-content-between">
-              <div><div class="stat-value"><%= projectCount || 0 %></div><div class="stat-label">Projects</div></div>
-              <div class="stat-icon" style="background:#FAF5FF;color:#A855F7;"><i class="fa-solid fa-diagram-project"></i></div>
+              <div><div class="fs-2 fw-bold lh-1"><%= projectCount || 0 %></div><div class="small text-muted mt-1">Projects</div></div>
+              <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 fs-5" style="width:48px;height:48px;background:#FAF5FF;color:#A855F7;"><i class="fa-solid fa-diagram-project"></i></div>
             </div>
-            <div class="stat-change" style="color:#A855F7;"><i class="fa-solid fa-layer-group me-1"></i>Assigned</div>
+            <div class="small mt-2" style="color:#A855F7;"><i class="fa-solid fa-layer-group me-1"></i>Assigned</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
-          <div class="stat-card">
+          <div class="card p-4 h-100">
             <div class="d-flex align-items-start justify-content-between">
-              <div><div class="stat-value"><%= appraisalCount || 0 %></div><div class="stat-label">Appraisals</div></div>
-              <div class="stat-icon" style="background:#FFFBEB;color:#EAB308;"><i class="fa-solid fa-star-half-stroke"></i></div>
+              <div><div class="fs-2 fw-bold lh-1"><%= appraisalCount || 0 %></div><div class="small text-muted mt-1">Appraisals</div></div>
+              <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 fs-5" style="width:48px;height:48px;background:#FFFBEB;color:#EAB308;"><i class="fa-solid fa-star-half-stroke"></i></div>
             </div>
-            <div class="stat-change" style="color:#EAB308;"><i class="fa-solid fa-check me-1"></i>Completed</div>
+            <div class="small mt-2" style="color:#EAB308;"><i class="fa-solid fa-check me-1"></i>Completed</div>
           </div>
         </div>
       </div>
@@ -58,9 +58,9 @@
       <div class="row g-3">
         <!-- Quick Actions -->
         <div class="col-md-4">
-          <div class="section-card">
-            <div class="section-card-header"><h6><i class="fa-solid fa-bolt me-2 text-primary"></i>Quick Actions</h6></div>
-            <div class="section-card-body p-3">
+          <div class="card">
+            <div class="card-header bg-white"><h6 class="mb-0"><i class="fa-solid fa-bolt me-2 text-primary"></i>Quick Actions</h6></div>
+            <div class="card-body p-3">
               <div class="d-grid gap-2">
                 <a href="/manager/view-employees" class="btn btn-primary btn-sm"><i class="fa-solid fa-users me-2"></i>View Team</a>
                 <a href="/manager/applied-leaves" class="btn btn-outline-warning btn-sm"><i class="fa-solid fa-calendar-xmark me-2"></i>Review Leaves</a>
@@ -74,36 +74,36 @@
 
         <!-- Module Cards -->
         <div class="col-md-8">
-          <div class="section-card">
-            <div class="section-card-header"><h6><i class="fa-solid fa-grid-2 me-2 text-primary"></i>Manager Modules</h6></div>
-            <div class="section-card-body p-3">
+          <div class="card">
+            <div class="card-header bg-white"><h6 class="mb-0"><i class="fa-solid fa-grid-2 me-2 text-primary"></i>Manager Modules</h6></div>
+            <div class="card-body p-3">
               <div class="row g-3">
                 <div class="col-6">
-                  <a href="/manager/view-employees" class="module-card">
-                    <div class="module-icon" style="background:#EBF5FF;color:#2490EF;"><i class="fa-solid fa-users"></i></div>
-                    <div class="module-title">Team Management</div>
-                    <div class="module-desc">View & manage team</div>
+                  <a href="/manager/view-employees" class="card p-3 text-decoration-none link-body-emphasis h-100 d-flex flex-column gap-2">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center fs-5" style="width:44px;height:44px;background:#EBF5FF;color:#2490EF;"><i class="fa-solid fa-users"></i></div>
+                    <div class="fw-semibold small">Team Management</div>
+                    <div class="small text-muted">View &amp; manage team</div>
                   </a>
                 </div>
                 <div class="col-6">
-                  <a href="/manager/applied-leaves" class="module-card">
-                    <div class="module-icon" style="background:#FFF7ED;color:#F97316;"><i class="fa-solid fa-calendar-xmark"></i></div>
-                    <div class="module-title">Leave Requests</div>
-                    <div class="module-desc">Approve / reject</div>
+                  <a href="/manager/applied-leaves" class="card p-3 text-decoration-none link-body-emphasis h-100 d-flex flex-column gap-2">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center fs-5" style="width:44px;height:44px;background:#FFF7ED;color:#F97316;"><i class="fa-solid fa-calendar-xmark"></i></div>
+                    <div class="fw-semibold small">Leave Requests</div>
+                    <div class="small text-muted">Approve / reject</div>
                   </a>
                 </div>
                 <div class="col-6">
-                  <a href="/manager/performance-appraisal" class="module-card">
-                    <div class="module-icon" style="background:#FFFBEB;color:#EAB308;"><i class="fa-solid fa-star-half-stroke"></i></div>
-                    <div class="module-title">Performance</div>
-                    <div class="module-desc">Rate & review team</div>
+                  <a href="/manager/performance-appraisal" class="card p-3 text-decoration-none link-body-emphasis h-100 d-flex flex-column gap-2">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center fs-5" style="width:44px;height:44px;background:#FFFBEB;color:#EAB308;"><i class="fa-solid fa-star-half-stroke"></i></div>
+                    <div class="fw-semibold small">Performance</div>
+                    <div class="small text-muted">Rate &amp; review team</div>
                   </a>
                 </div>
                 <div class="col-6">
-                  <a href="/manager/generate-payslip" class="module-card">
-                    <div class="module-icon" style="background:#ECFDF5;color:#10B981;"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-                    <div class="module-title">Payroll</div>
-                    <div class="module-desc">Generate payslips</div>
+                  <a href="/manager/generate-payslip" class="card p-3 text-decoration-none link-body-emphasis h-100 d-flex flex-column gap-2">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center fs-5" style="width:44px;height:44px;background:#ECFDF5;color:#10B981;"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    <div class="fw-semibold small">Payroll</div>
+                    <div class="small text-muted">Generate payslips</div>
                   </a>
                 </div>
               </div>

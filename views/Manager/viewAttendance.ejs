@@ -5,7 +5,7 @@
   <%- include('../partials/sidebar_manager', { activePage: 'attendance' }) %>
   <div id="main-content">
     <%- include('../partials/navbar', { pageTitle: 'My Attendance', userName, csrfToken, profileUrl: '/manager/view-profile', userRole: 'Manager' }) %>
-    <div class="page-inner">
+    <div class="p-4">
       <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
           <h5 style="font-weight:700;margin:0;color:#1a202c;">My Attendance Sheet</h5>
@@ -26,10 +26,10 @@
           <button type="submit" class="btn btn-primary btn-sm">View</button>
         </form>
       </div>
-      <div class="section-card">
-        <div class="section-card-body">
+      <div class="card">
+        <div class="card-body">
           <% if (found === 1 && attendance && attendance.length > 0) { %>
-          <table class="table table-modern dt-table mb-0">
+          <table class="table table-hover dt-table mb-0">
             <thead><tr><th>#</th><th>Date</th><th>Status</th></tr></thead>
             <tbody>
               <% attendance.forEach(function(item, idx) { %>

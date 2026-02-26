@@ -6,10 +6,10 @@
   <div id="main-content">
     <%- include('../partials/navbar', { pageTitle: 'Dashboard', userName, csrfToken, profileUrl: '/employee/view-profile', userRole: 'Employee' }) %>
 
-    <div class="page-inner">
+    <div class="p-4">
       <!-- Welcome Banner -->
-      <div class="section-card mb-4" style="background:linear-gradient(135deg,#10B981,#2490EF);border:none;">
-        <div class="section-card-body" style="padding:24px 28px;">
+      <div class="card mb-4" style="background:linear-gradient(135deg,#10B981,#2490EF);border:none;">
+        <div class="card-body" style="padding:24px 28px;">
           <h4 style="color:#fff;font-weight:700;margin:0;">Welcome, <%= userName %>! 👋</h4>
           <p style="color:rgba(255,255,255,0.8);margin:6px 0 0;font-size:0.9rem;">Track your attendance, leaves, and projects all in one place.</p>
         </div>
@@ -18,51 +18,51 @@
       <!-- Stats -->
       <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
-          <div class="stat-card">
+          <div class="card p-4 h-100">
             <div class="d-flex align-items-start justify-content-between">
               <div>
-                <div class="stat-value"><%= leaveCount %></div>
-                <div class="stat-label">Total Leaves</div>
+                <div class="fs-2 fw-bold lh-1"><%= leaveCount %></div>
+                <div class="small text-muted mt-1">Total Leaves</div>
               </div>
-              <div class="stat-icon" style="background:#FFF7ED;color:#F97316;"><i class="fa-solid fa-calendar-xmark"></i></div>
+              <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 fs-5" style="width:48px;height:48px;background:#FFF7ED;color:#F97316;"><i class="fa-solid fa-calendar-xmark"></i></div>
             </div>
-            <div class="stat-change" style="color:#F97316;"><i class="fa-solid fa-clock me-1"></i><%= pendingLeaves %> pending</div>
+            <div class="small mt-2" style="color:#F97316;"><i class="fa-solid fa-clock me-1"></i><%= pendingLeaves %> pending</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
-          <div class="stat-card">
+          <div class="card p-4 h-100">
             <div class="d-flex align-items-start justify-content-between">
               <div>
-                <div class="stat-value"><%= todayAttendance ? '✓' : '✗' %></div>
-                <div class="stat-label">Today's Status</div>
+                <div class="fs-2 fw-bold lh-1"><%= todayAttendance ? '✓' : '✗' %></div>
+                <div class="small text-muted mt-1">Today's Status</div>
               </div>
-              <div class="stat-icon" style="background:<%= todayAttendance ? '#F0FDF4' : '#FFF1F2' %>;color:<%= todayAttendance ? '#22C55E' : '#F43F5E' %>;"><i class="fa-solid fa-calendar-check"></i></div>
+              <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 fs-5" style="width:48px;height:48px;background:<%= todayAttendance ? '#F0FDF4' : '#FFF1F2' %>;color:<%= todayAttendance ? '#22C55E' : '#F43F5E' %>;"><i class="fa-solid fa-calendar-check"></i></div>
             </div>
-            <div class="stat-change" style="color:<%= todayAttendance ? '#22C55E' : '#F43F5E' %>;"><%= todayAttendance ? 'Present' : 'Not marked yet' %></div>
+            <div class="small mt-2" style="color:<%= todayAttendance ? '#22C55E' : '#F43F5E' %>;"><%= todayAttendance ? 'Present' : 'Not marked yet' %></div>
           </div>
         </div>
         <div class="col-6 col-md-3">
-          <div class="stat-card">
+          <div class="card p-4 h-100">
             <div class="d-flex align-items-start justify-content-between">
               <div>
-                <div class="stat-value"><%= projectCount %></div>
-                <div class="stat-label">My Projects</div>
+                <div class="fs-2 fw-bold lh-1"><%= projectCount %></div>
+                <div class="small text-muted mt-1">My Projects</div>
               </div>
-              <div class="stat-icon" style="background:#FAF5FF;color:#A855F7;"><i class="fa-solid fa-diagram-project"></i></div>
+              <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 fs-5" style="width:48px;height:48px;background:#FAF5FF;color:#A855F7;"><i class="fa-solid fa-diagram-project"></i></div>
             </div>
-            <div class="stat-change" style="color:#A855F7;"><i class="fa-solid fa-layer-group me-1"></i>Assigned</div>
+            <div class="small mt-2" style="color:#A855F7;"><i class="fa-solid fa-layer-group me-1"></i>Assigned</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
-          <div class="stat-card">
+          <div class="card p-4 h-100">
             <div class="d-flex align-items-start justify-content-between">
               <div>
-                <div class="stat-value">0</div>
-                <div class="stat-label">Expense Claims</div>
+                <div class="fs-2 fw-bold lh-1">0</div>
+                <div class="small text-muted mt-1">Expense Claims</div>
               </div>
-              <div class="stat-icon" style="background:#ECFDF5;color:#10B981;"><i class="fa-solid fa-receipt"></i></div>
+              <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 fs-5" style="width:48px;height:48px;background:#ECFDF5;color:#10B981;"><i class="fa-solid fa-receipt"></i></div>
             </div>
-            <div class="stat-change"><a href="/employee/expenses/new" style="color:#10B981;font-size:0.78rem;">File a claim →</a></div>
+            <div class="small mt-2"><a href="/employee/expenses/new" style="color:#10B981;">File a claim →</a></div>
           </div>
         </div>
       </div>
@@ -70,9 +70,9 @@
       <div class="row g-3">
         <!-- Quick Actions -->
         <div class="col-md-4">
-          <div class="section-card">
-            <div class="section-card-header"><h6><i class="fa-solid fa-bolt me-2 text-primary"></i>Quick Actions</h6></div>
-            <div class="section-card-body p-3">
+          <div class="card">
+            <div class="card-header bg-white"><h6 class="mb-0"><i class="fa-solid fa-bolt me-2 text-primary"></i>Quick Actions</h6></div>
+            <div class="card-body p-3">
               <div class="d-grid gap-2">
                 <a href="/employee/apply-for-leave" class="btn btn-primary btn-sm"><i class="fa-solid fa-paper-plane me-2"></i>Apply for Leave</a>
                 <a href="/employee/attendance" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-calendar-check me-2"></i>Mark Attendance</a>
@@ -86,36 +86,36 @@
 
         <!-- Module Cards -->
         <div class="col-md-8">
-          <div class="section-card">
-            <div class="section-card-header"><h6><i class="fa-solid fa-grid-2 me-2 text-primary"></i>Self Service</h6></div>
-            <div class="section-card-body p-3">
+          <div class="card">
+            <div class="card-header bg-white"><h6 class="mb-0"><i class="fa-solid fa-grid-2 me-2 text-primary"></i>Self Service</h6></div>
+            <div class="card-body p-3">
               <div class="row g-3">
                 <div class="col-6">
-                  <a href="/employee/applied-leaves" class="module-card">
-                    <div class="module-icon" style="background:#FFF7ED;color:#F97316;"><i class="fa-solid fa-calendar-xmark"></i></div>
-                    <div class="module-title">Leave Management</div>
-                    <div class="module-desc">Apply & track leaves</div>
+                  <a href="/employee/applied-leaves" class="card p-3 text-decoration-none link-body-emphasis h-100 d-flex flex-column gap-2">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center fs-5" style="width:44px;height:44px;background:#FFF7ED;color:#F97316;"><i class="fa-solid fa-calendar-xmark"></i></div>
+                    <div class="fw-semibold small">Leave Management</div>
+                    <div class="small text-muted">Apply &amp; track leaves</div>
                   </a>
                 </div>
                 <div class="col-6">
-                  <a href="/employee/attendance" class="module-card">
-                    <div class="module-icon" style="background:#F0FDF4;color:#22C55E;"><i class="fa-solid fa-calendar-check"></i></div>
-                    <div class="module-title">Attendance</div>
-                    <div class="module-desc">Mark & view attendance</div>
+                  <a href="/employee/attendance" class="card p-3 text-decoration-none link-body-emphasis h-100 d-flex flex-column gap-2">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center fs-5" style="width:44px;height:44px;background:#F0FDF4;color:#22C55E;"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div class="fw-semibold small">Attendance</div>
+                    <div class="small text-muted">Mark &amp; view attendance</div>
                   </a>
                 </div>
                 <div class="col-6">
-                  <a href="/employee/expenses" class="module-card">
-                    <div class="module-icon" style="background:#ECFDF5;color:#10B981;"><i class="fa-solid fa-receipt"></i></div>
-                    <div class="module-title">Expense Claims</div>
-                    <div class="module-desc">File reimbursements</div>
+                  <a href="/employee/expenses" class="card p-3 text-decoration-none link-body-emphasis h-100 d-flex flex-column gap-2">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center fs-5" style="width:44px;height:44px;background:#ECFDF5;color:#10B981;"><i class="fa-solid fa-receipt"></i></div>
+                    <div class="fw-semibold small">Expense Claims</div>
+                    <div class="small text-muted">File reimbursements</div>
                   </a>
                 </div>
                 <div class="col-6">
-                  <a href="/employee/view-personal-projects" class="module-card">
-                    <div class="module-icon" style="background:#FAF5FF;color:#A855F7;"><i class="fa-solid fa-diagram-project"></i></div>
-                    <div class="module-title">Projects</div>
-                    <div class="module-desc">View assigned work</div>
+                  <a href="/employee/view-personal-projects" class="card p-3 text-decoration-none link-body-emphasis h-100 d-flex flex-column gap-2">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center fs-5" style="width:44px;height:44px;background:#FAF5FF;color:#A855F7;"><i class="fa-solid fa-diagram-project"></i></div>
+                    <div class="fw-semibold small">Projects</div>
+                    <div class="small text-muted">View assigned work</div>
                   </a>
                 </div>
               </div>

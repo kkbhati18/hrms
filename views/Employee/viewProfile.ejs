@@ -5,12 +5,12 @@
   <%- include('../partials/sidebar_employee', { activePage: 'profile' }) %>
   <div id="main-content">
     <%- include('../partials/navbar', { pageTitle: 'My Profile', userName, csrfToken, profileUrl: '/employee/view-profile', userRole: 'Employee' }) %>
-    <div class="page-inner">
+    <div class="p-4">
       <h5 style="font-weight:700;color:#1a202c;margin-bottom:1.5rem;">My Profile</h5>
       <div class="row g-4">
         <div class="col-md-4">
-          <div class="section-card text-center">
-            <div class="section-card-body">
+          <div class="card text-center">
+            <div class="card-body">
               <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.8rem;font-weight:700;margin:0 auto 1rem;"><%= employee.name ? employee.name[0].toUpperCase() : 'E' %></div>
               <h6 style="font-weight:700;margin:0;"><%= employee.name %></h6>
               <p style="color:#6b7280;font-size:0.85rem;margin:4px 0 8px;"><%= employee.designation || 'Employee' %></p>
@@ -23,8 +23,8 @@
           </div>
         </div>
         <div class="col-md-8">
-          <div class="section-card">
-            <div class="section-card-body">
+          <div class="card">
+            <div class="card-body">
               <h6 style="font-weight:700;margin-bottom:1rem;color:#374151;">Personal Information</h6>
               <div class="row g-3">
                 <div class="col-sm-6"><div style="font-size:0.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;">Full Name</div><div style="font-weight:600;"><%= employee.name %></div></div>

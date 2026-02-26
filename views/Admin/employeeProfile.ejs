@@ -5,15 +5,15 @@
   <%- include('../partials/sidebar_admin', { activePage: 'employees' }) %>
   <div id="main-content">
     <%- include('../partials/navbar', { pageTitle: 'Employee Profile', userName, csrfToken, profileUrl: '/admin/view-profile', userRole: 'Administrator' }) %>
-    <div class="page-inner">
+    <div class="p-4">
       <div class="mb-4">
         <a href="/admin/view-all-employees" class="btn btn-outline-secondary btn-sm me-2"><i class="fa-solid fa-arrow-left me-1"></i>Back</a>
         <h5 class="d-inline-block ms-1" style="font-weight:700;color:#1a202c;">Employee Profile</h5>
       </div>
       
       <!-- Profile Hero Section -->
-      <div class="section-card mb-4" style="background: linear-gradient(to right, #ffffff, #f8fafc); border: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
-        <div class="section-card-body p-4">
+      <div class="card mb-4" style="background: linear-gradient(to right, #ffffff, #f8fafc); border: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+        <div class="card-body p-4">
           <div class="row align-items-center">
             <div class="col-auto">
               <div style="width:100px;height:100px;border-radius:24px;background:linear-gradient(135deg,#2490EF,#1976D2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:2.5rem;font-weight:700;box-shadow: 0 10px 15px -3px rgba(36, 144, 239, 0.3);">
@@ -63,11 +63,11 @@
       <div class="row g-4">
         <!-- Sidebar Info -->
         <div class="col-lg-4">
-          <div class="section-card mb-4">
-            <div class="section-card-header bg-transparent border-0 pt-4 px-4 pb-0">
+          <div class="card mb-4">
+            <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
               <h6 style="color: #64748b; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; font-weight: 700;">Quick Actions & Links</h6>
             </div>
-            <div class="section-card-body p-4 pt-1">
+            <div class="card-body p-4 pt-1">
               <div class="d-grid gap-2 mb-4 mt-3">
                 <a href="/admin/add-employee-project/<%= employee._id %>" class="btn btn-sm btn-outline-success text-start px-3 py-2" style="border-radius:8px; border-style: dashed;">
                    <i class="fa-solid fa-plus me-2"></i>Assign New Project
@@ -108,11 +108,11 @@
             </div>
           </div>
 
-          <div class="section-card">
-            <div class="section-card-header bg-transparent border-0 pt-4 px-4 pb-0">
+          <div class="card">
+            <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
               <h6 style="color: #64748b; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; font-weight: 700;">Account statistics</h6>
             </div>
-            <div class="section-card-body p-4 pt-1">
+            <div class="card-body p-4 pt-1">
               <div class="d-flex align-items-center justify-content-between mb-3 mt-3 p-3" style="background:rgba(34, 197, 94, 0.05); border-radius:12px; border: 1px solid rgba(34, 197, 94, 0.1);">
                 <div class="d-flex align-items-center">
                   <i class="fa-solid fa-circle-check text-success me-2"></i>
@@ -133,11 +133,11 @@
 
         <!-- Main Info -->
         <div class="col-lg-8">
-          <div class="section-card mb-4 shadow-sm border-0">
-            <div class="section-card-header p-4 bg-white">
+          <div class="card mb-4 shadow-sm border-0">
+            <div class="card-header p-4 bg-white">
               <h5 class="mb-0" style="font-weight: 700; color: #1e293b;">Employment Details</h5>
             </div>
-            <div class="section-card-body p-4 pt-0">
+            <div class="card-body p-4 pt-0">
               <div class="row g-4">
                 <div class="col-sm-6">
                   <div class="p-3 bg-light rounded-3 h-100">
@@ -182,12 +182,12 @@
             </div>
           </div>
 
-          <div class="section-card shadow-sm border-0">
-            <div class="section-card-header p-4 bg-white d-flex justify-content-between align-items-center">
+          <div class="card shadow-sm border-0">
+            <div class="card-header p-4 bg-white d-flex justify-content-between align-items-center">
               <h5 class="mb-0" style="font-weight: 700; color: #1e293b;">Bank & Salary Information</h5>
               <div class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-weight: 700;">Confidential</div>
             </div>
-            <div class="section-card-body p-4 pt-0">
+            <div class="card-body p-4 pt-0">
               <div class="row g-4 mt-1">
                 <div class="col-md-12">
                    <div class="p-4" style="background: #f1f5f9; border-radius: 16px; border-left: 4px solid var(--primary);">

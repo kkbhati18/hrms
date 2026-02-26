@@ -4,16 +4,13 @@
 <body>
   <%- include('../partials/sidebar_employee', { activePage: 'apply-leave' }) %>
   <div id="main-content">
-    <%- include('../partials/navbar', { pageTitle: 'Apply for Leave', userName, csrfToken, profileUrl: '/employee/view-profile', userRole: 'Employee' }) %>
-    <div class="page-inner">
+    <%- include('../partials/navbar', { pageTitle: 'Apply for Leave', userName, csrfToken, profileUrl: '/employee/view-profile', userRole: 'Employee', errorMsg: (typeof error !== 'undefined' ? error : null) }) %>
+    <div class="p-4">
       <div class="mb-4">
         <a href="/employee/applied-leaves" class="btn btn-outline-secondary btn-sm me-2"><i class="fa-solid fa-arrow-left me-1"></i>Back</a>
         <h5 class="d-inline-block ms-1" style="font-weight:700;color:#1a202c;">Apply for Leave</h5>
       </div>
-      <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
-      <div class="alert alert-danger border-0 mb-4" style="border-radius:10px;"><i class="fa-solid fa-circle-exclamation me-2"></i><%= error %></div>
-      <% } %>
-      <div class="form-card" style="max-width:600px;">
+      <div class="card p-4" style="max-width:600px;">
         <form method="post" action="/employee/apply-for-leave">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <div class="row g-3">

@@ -4,16 +4,13 @@
 <body>
   <%- include('../partials/sidebar_manager', { activePage: 'appraisal' }) %>
   <div id="main-content">
-    <%- include('../partials/navbar', { pageTitle: 'Performance Appraisal', userName, csrfToken, profileUrl: '/manager/view-profile', userRole: 'Project Manager' }) %>
-    <div class="page-inner">
+    <%- include('../partials/navbar', { pageTitle: 'Performance Appraisal', userName, csrfToken, profileUrl: '/manager/view-profile', userRole: 'Project Manager', errorMsg: (typeof message !== 'undefined' && message !== '' ? message : null) }) %>
+    <div class="p-4">
       <div class="mb-4">
         <a href="/manager/view-employees" class="btn btn-outline-secondary btn-sm me-2"><i class="fa-solid fa-arrow-left me-1"></i>Back</a>
         <h5 class="d-inline-block ms-1" style="font-weight:700;color:#1a202c;">Performance Appraisal: <%= employee.name %></h5>
       </div>
-      <% if (message && message !== '') { %>
-      <div class="alert alert-danger border-0 mb-4" style="border-radius:10px;"><%= message %></div>
-      <% } %>
-      <div class="form-card" style="max-width:600px;">
+      <div class="card p-4" style="max-width:600px;">
         <form method="post" action="/manager/provide-performance-appraisal">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <input type="hidden" name="employeeID" value="<%= employee._id %>" />

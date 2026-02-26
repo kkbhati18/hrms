@@ -5,15 +5,15 @@
   <%- include('../partials/sidebar_employee', { activePage: 'projects' }) %>
   <div id="main-content">
     <%- include('../partials/navbar', { pageTitle: 'Project Details', userName, csrfToken, profileUrl: '/employee/view-profile', userRole: 'Employee' }) %>
-    <div class="page-inner">
+    <div class="p-4">
       <div class="mb-4">
         <a href="/employee/view-personal-projects" class="btn btn-outline-secondary btn-sm me-2"><i class="fa-solid fa-arrow-left me-1"></i>Back</a>
         <h5 class="d-inline-block ms-1" style="font-weight:700;color:#1a202c;">Project Details</h5>
       </div>
       <div class="row g-4">
         <div class="col-md-4">
-          <div class="section-card">
-            <div class="section-card-body">
+          <div class="card">
+            <div class="card-body">
               <h6 style="font-weight:700;margin-bottom:1rem;color:#374151;">Overview</h6>
               <div class="row g-2">
                 <div class="col-12"><div style="font-size:0.75rem;color:#9ca3af;">Type</div><div style="font-weight:600;font-size:0.9rem;"><%= project.type %></div></div>
@@ -27,8 +27,8 @@
           </div>
         </div>
         <div class="col-md-8">
-          <div class="section-card">
-            <div class="section-card-body">
+          <div class="card">
+            <div class="card-body">
               <h5 style="font-weight:700;color:#1a202c;margin-bottom:0.5rem;"><%= project.title %></h5>
               <p style="color:#6b7280;font-size:0.9rem;line-height:1.6;"><%= project.description || 'No description provided.' %></p>
             </div>

@@ -1,7 +1,7 @@
-<div id="sidebar">
-  <div class="sidebar-brand">
-    <div class="brand-icon"><i class="fa-solid fa-building-user"></i></div>
-    <span class="brand-text">HRMS</span>
+<div id="sidebar" class="bg-dark">
+  <div class="d-flex align-items-center border-bottom border-secondary-subtle px-3" style="height:60px;">
+    <div class="rounded-2 bg-primary d-flex align-items-center justify-content-center me-2 flex-shrink-0 text-white" style="width:34px;height:34px;font-size:1rem;"><i class="fa-solid fa-building-user"></i></div>
+    <span class="fw-bold text-white fs-5 text-nowrap">HRMS</span>
     <button class="btn-close btn-close-white ms-auto d-md-none" id="sidebarClose" style="font-size: 0.8rem;"></button>
   </div>
 
@@ -12,7 +12,7 @@
       </a>
     </li>
 
-    <div class="sidebar-section-title">Team</div>
+    <div class="text-uppercase fw-bold px-3 pt-3 pb-1 text-white-50" style="font-size:0.7rem;letter-spacing:1.2px;">Team</div>
     <li class="nav-item">
       <a href="/manager/view-employees" class="nav-link
         <%= typeof activePage !== 'undefined' && activePage === 'employees' ? 'active' : '' %>">
@@ -20,7 +20,7 @@
       </a>
     </li>
 
-    <div class="sidebar-section-title">Leaves</div>
+    <div class="text-uppercase fw-bold px-3 pt-3 pb-1 text-white-50" style="font-size:0.7rem;letter-spacing:1.2px;">Leaves</div>
     <li class="nav-item">
       <a href="/manager/applied-leaves" class="nav-link
         <%= typeof activePage !== 'undefined' && activePage === 'leaves' ? 'active' : '' %>">
@@ -34,7 +34,7 @@
       </a>
     </li>
 
-    <div class="sidebar-section-title">Attendance</div>
+    <div class="text-uppercase fw-bold px-3 pt-3 pb-1 text-white-50" style="font-size:0.7rem;letter-spacing:1.2px;">Attendance</div>
     <li class="nav-item">
       <a href="/manager/view-attendance" class="nav-link
         <%= typeof activePage !== 'undefined' && activePage === 'attendance' ? 'active' : '' %>">
@@ -48,7 +48,7 @@
       </a>
     </li>
 
-    <div class="sidebar-section-title">Projects</div>
+    <div class="text-uppercase fw-bold px-3 pt-3 pb-1 text-white-50" style="font-size:0.7rem;letter-spacing:1.2px;">Projects</div>
     <li class="nav-item">
       <a href="/manager/view-personal-projects" class="nav-link
         <%= typeof activePage !== 'undefined' && activePage === 'projects' ? 'active' : '' %>">
@@ -56,7 +56,7 @@
       </a>
     </li>
 
-    <div class="sidebar-section-title">Performance</div>
+    <div class="text-uppercase fw-bold px-3 pt-3 pb-1 text-white-50" style="font-size:0.7rem;letter-spacing:1.2px;">Performance</div>
     <li class="nav-item">
       <a href="/manager/performance-appraisal" class="nav-link
         <%= typeof activePage !== 'undefined' && activePage === 'appraisal' ? 'active' : '' %>">
@@ -64,7 +64,7 @@
       </a>
     </li>
 
-    <div class="sidebar-section-title">Payroll</div>
+    <div class="text-uppercase fw-bold px-3 pt-3 pb-1 text-white-50" style="font-size:0.7rem;letter-spacing:1.2px;">Payroll</div>
     <li class="nav-item">
       <a href="/manager/generate-payslip" class="nav-link
         <%= typeof activePage !== 'undefined' && activePage === 'payslip' ? 'active' : '' %>">
@@ -72,7 +72,7 @@
       </a>
     </li>
 
-    <div class="sidebar-section-title">Account</div>
+    <div class="text-uppercase fw-bold px-3 pt-3 pb-1 text-white-50" style="font-size:0.7rem;letter-spacing:1.2px;">Account</div>
     <li class="nav-item">
       <a href="/manager/view-profile" class="nav-link
         <%= typeof activePage !== 'undefined' && activePage === 'profile' ? 'active' : '' %>">

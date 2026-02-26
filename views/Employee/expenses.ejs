@@ -6,7 +6,7 @@
   <div id="main-content">
     <%- include('../partials/navbar', { pageTitle: 'Expense Claims', userName, csrfToken, profileUrl: '/employee/view-profile', userRole: 'Employee' }) %>
 
-    <div class="page-inner">
+    <div class="p-4">
       <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
           <h5 style="font-weight:700;margin:0;color:#1a202c;">My Expense Claims</h5>
@@ -20,35 +20,35 @@
       <!-- Summary Cards -->
       <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
-          <div class="stat-card">
-            <div class="stat-value"><%= claims.length %></div>
-            <div class="stat-label">Total Claims</div>
+          <div class="card p-4 h-100">
+            <div class="fs-2 fw-bold lh-1"><%= claims.length %></div>
+            <div class="small text-muted mt-1">Total Claims</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
-          <div class="stat-card">
-            <div class="stat-value"><%= claims.filter(c=>c.status==='Pending').length %></div>
-            <div class="stat-label">Pending</div>
+          <div class="card p-4 h-100">
+            <div class="fs-2 fw-bold lh-1"><%= claims.filter(c=>c.status==='Pending').length %></div>
+            <div class="small text-muted mt-1">Pending</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
-          <div class="stat-card">
-            <div class="stat-value">₹<%= claims.filter(c=>c.status==='Approved').reduce((s,c)=>s+c.amount,0).toLocaleString() %></div>
-            <div class="stat-label">Approved Amount</div>
+          <div class="card p-4 h-100">
+            <div class="fs-2 fw-bold lh-1">₹<%= claims.filter(c=>c.status==='Approved').reduce((s,c)=>s+c.amount,0).toLocaleString() %></div>
+            <div class="small text-muted mt-1">Approved Amount</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
-          <div class="stat-card">
-            <div class="stat-value"><%= claims.filter(c=>c.status==='Approved').length %></div>
-            <div class="stat-label">Approved</div>
+          <div class="card p-4 h-100">
+            <div class="fs-2 fw-bold lh-1"><%= claims.filter(c=>c.status==='Approved').length %></div>
+            <div class="small text-muted mt-1">Approved</div>
           </div>
         </div>
       </div>
 
-      <div class="section-card">
-        <div class="section-card-body">
+      <div class="card">
+        <div class="card-body">
           <% if (claims.length > 0) { %>
-          <table class="table table-modern dt-table mb-0">
+          <table class="table table-hover dt-table mb-0">
             <thead>
               <tr>
                 <th>Title</th>

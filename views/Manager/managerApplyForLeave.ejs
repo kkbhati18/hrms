@@ -5,12 +5,12 @@
   <%- include('../partials/sidebar_manager', { activePage: 'apply-leave' }) %>
   <div id="main-content">
     <%- include('../partials/navbar', { pageTitle: 'Apply for Leave', userName, csrfToken, profileUrl: '/manager/view-profile', userRole: 'Manager' }) %>
-    <div class="page-inner">
+    <div class="p-4">
       <div class="mb-4">
         <a href="/manager/applied-leaves" class="btn btn-outline-secondary btn-sm me-2"><i class="fa-solid fa-arrow-left me-1"></i>Back</a>
         <h5 class="d-inline-block ms-1" style="font-weight:700;color:#1a202c;">Apply for Leave</h5>
       </div>
-      <div class="form-card" style="max-width:600px;">
+      <div class="card p-4" style="max-width:600px;">
         <form method="post" action="/manager/apply-for-leave">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <div class="row g-3">

@@ -6,7 +6,7 @@
   <div id="main-content">
     <%- include('../partials/navbar', { pageTitle: 'Attendance Management', userName, csrfToken, profileUrl: '/admin/view-profile', userRole: 'Administrator' }) %>
 
-    <div class="page-inner">
+    <div class="p-4">
       <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
           <h5 style="font-weight:700;margin:0;color:#1a202c;">Attendance — <%= todayDate %></h5>
@@ -20,15 +20,15 @@
         </form>
       </div>
 
-      <div class="section-card">
-        <div class="section-card-header">
+      <div class="card">
+        <div class="card-header bg-white d-flex align-items-center justify-content-between">
           <h6><i class="fa-solid fa-users me-2 text-primary"></i>Employee Attendance Today</h6>
           <span class="badge bg-primary bg-opacity-10 text-primary" style="border-radius:20px;">
             <%= [...markedIds].length %> / <%= employees.length %> Present
           </span>
         </div>
-        <div class="section-card-body">
-          <table class="table table-modern dt-table mb-0">
+        <div class="card-body">
+          <table class="table table-hover dt-table mb-0">
             <thead>
               <tr>
                 <th>Employee</th>

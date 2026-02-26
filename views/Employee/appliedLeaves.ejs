@@ -5,7 +5,7 @@
   <%- include('../partials/sidebar_employee', { activePage: 'my-leaves' }) %>
   <div id="main-content">
     <%- include('../partials/navbar', { pageTitle: 'My Leave Applications', userName, csrfToken, profileUrl: '/employee/view-profile', userRole: 'Employee' }) %>
-    <div class="page-inner">
+    <div class="p-4">
       <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
           <h5 style="font-weight:700;margin:0;color:#1a202c;">My Leave Applications</h5>
@@ -13,10 +13,10 @@
         </div>
         <a href="/employee/apply-for-leave" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus me-2"></i>Apply for Leave</a>
       </div>
-      <div class="section-card">
-        <div class="section-card-body">
+      <div class="card">
+        <div class="card-body">
           <% if (hasLeave === 1) { %>
-          <table class="table table-modern dt-table mb-0">
+          <table class="table table-hover dt-table mb-0">
             <thead><tr><th>Title</th><th>Type</th><th>Period</th><th>Start</th><th>End</th><th>Applied</th><th>Status</th></tr></thead>
             <tbody>
               <% leaves.forEach(function(leave) { %>

@@ -5,13 +5,13 @@
   <%- include('../partials/sidebar_manager', { activePage: 'employees' }) %>
   <div id="main-content">
     <%- include('../partials/navbar', { pageTitle: 'Employee Salaries', userName, csrfToken, profileUrl: '/manager/view-profile', userRole: 'Accounts Manager' }) %>
-    <div class="page-inner">
+    <div class="p-4">
       <div class="d-flex align-items-center justify-content-between mb-4">
         <h5 style="font-weight:700;margin:0;color:#1a202c;">Employee Salaries</h5>
       </div>
-      <div class="section-card">
-        <div class="section-card-body">
-          <table class="table table-modern dt-table mb-0">
+      <div class="card">
+        <div class="card-body">
+          <table class="table table-hover dt-table mb-0">
             <thead><tr><th>Name</th><th>Email</th><th>Basic Pay</th><th>Overtime</th><th>Conveyance</th><th>Bonus</th><th>Actions</th></tr></thead>
             <tbody>
               <% for(var i = 0; i < users.length; i++) { %>
